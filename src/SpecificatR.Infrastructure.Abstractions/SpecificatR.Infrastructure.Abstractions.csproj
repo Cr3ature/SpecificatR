@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RepositoryUrl>https://github.com/Cr3ature/SpecificatR</RepositoryUrl>
-    <Authors>SpecificatR.Abstractions</Authors>
+    <Authors>David Vanderheyden</Authors>
     <Product>SpecificatR.Abstractions</Product>
     <PackageId>SpecificatR.Abstractions</PackageId>
     <Description>SpecificatR abstractions contains contracts, enum and interfaces needed to use SpecificatR</Description>

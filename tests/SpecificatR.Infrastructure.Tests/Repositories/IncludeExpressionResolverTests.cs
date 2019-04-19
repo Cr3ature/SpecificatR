@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
-namespace SpecificatR.Infrastructure.Tests.Repositories
+namespace SpecificatR.Infrastructure.Tests
 {
     public class IncludeExpressionResolverTests
     {
