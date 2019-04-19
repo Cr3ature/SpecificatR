@@ -26,3 +26,8 @@ Registering the dependencies in an ASP.NET Core application, using Microsoft.Ext
 Need support for a different container? Feel free to [open a new issue](https://github.com/Cr3ature/SpecificatR/issues/new)
 
 ### Using SpecificatR
+
+
+### Todo
+
+- Projections: An expression to project the query to a new object. In the current version of EntityFrameworkCore, this gives issues when projecting nested entities, causing N+1 queries. [This issue should be resolved in EFCore 3](https://github.com/aspnet/EntityFrameworkCore/issues/12098#issuecomment-455997159), therefore I put this on todo list.
