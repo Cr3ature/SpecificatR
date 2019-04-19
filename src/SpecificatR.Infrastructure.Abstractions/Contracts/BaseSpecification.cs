@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace SpecificatR.Infrastructure.Abstractions.Contracts
+namespace SpecificatR.Infrastructure.Abstractions
 {
     public abstract class BaseSpecification<TEntity> : ISpecification<TEntity>
     {
