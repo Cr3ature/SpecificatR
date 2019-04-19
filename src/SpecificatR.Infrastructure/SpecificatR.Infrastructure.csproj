@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -8,6 +8,9 @@
     <Product>SpecificatR</Product>
     <Description>SpecificatR contains generic repositories (Read/ReadWrite) and interfaces for building a database infrastructure using EntityFramework Core and following the Specification Pattern</Description>
     <RepositoryUrl>https://github.com/Cr3ature/SpecificatR</RepositoryUrl>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/Cr3ature/SpecificatR</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>

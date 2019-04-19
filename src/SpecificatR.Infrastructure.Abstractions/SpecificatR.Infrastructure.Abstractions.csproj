@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -8,6 +8,8 @@
     <PackageId>SpecificatR.Abstractions</PackageId>
     <Description>SpecificatR abstractions contains contracts, enum and interfaces needed to use SpecificatR</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/Cr3ature/SpecificatR</PackageProjectUrl>
   </PropertyGroup>
 
 </Project>
