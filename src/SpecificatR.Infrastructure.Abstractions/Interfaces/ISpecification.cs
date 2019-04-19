@@ -16,8 +16,6 @@ namespace SpecificatR.Infrastructure.Abstractions
 
         IReadOnlyCollection<OrderByExpression<ClassType>> OrderByExpressions { get; }
 
-        Expression<Func<ClassType, ClassType>> Projection { get; }
-
         int Skip { get; }
 
         int Take { get; }

@@ -37,16 +37,6 @@ namespace SpecificatR.Infrastructure.Repositories
             return resultSet.FirstOrDefault();
         }
 
-        protected TEntity[] ApplyProjection(TEntity[] resultSet, ISpecification<TEntity> specification)
-        {
-            if (specification.Projection == null)
-            {
-                return resultSet;
-            }
-
-            return resultSet.AsQueryable().Select(specification.Projection).ToArray();
-        }
-
         protected IQueryable<TEntity> ApplySpecification(ISpecification<TEntity> specification)
         {
             return SpecificationEvaluator<TEntity, TIdentifier>.GetQuery(_context.Set<TEntity>().AsQueryable(), specification);
@@ -54,11 +44,7 @@ namespace SpecificatR.Infrastructure.Repositories
 
         private async Task<TEntity[]> GetResultSetAsync(ISpecification<TEntity> specification)
         {
-            TEntity[] resultSet = await ApplySpecification(specification).AsNoTracking().ToArrayAsync();
-
-            resultSet = ApplyProjection(resultSet, specification);
-
-            return resultSet;
+            return await ApplySpecification(specification).AsNoTracking().ToArrayAsync();
         }
     }
 }

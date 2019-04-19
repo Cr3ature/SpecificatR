@@ -5,13 +5,12 @@ using Microsoft.EntityFrameworkCore;
 using Moq;
 using SpecificatR.Infrastructure.Abstractions;
 using SpecificatR.Infrastructure.Repositories;
-using SpecificatR.Infrastructure.Tests;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Generic.Infrastructure.Sql.Tests
+namespace SpecificatR.Infrastructure.Tests.Repositories
 {
     public class ReadRepositoryTests
     {

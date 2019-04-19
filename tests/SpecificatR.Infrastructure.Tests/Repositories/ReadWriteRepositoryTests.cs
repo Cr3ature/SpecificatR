@@ -3,13 +3,12 @@ using EntityFrameworkCoreMock;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using SpecificatR.Infrastructure.Repositories;
-using SpecificatR.Infrastructure.Tests;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Generic.Infrastructure.Sql.Tests
+namespace SpecificatR.Infrastructure.Tests.Repositories
 {
     public class ReadWriteRepositoryTests
     {
