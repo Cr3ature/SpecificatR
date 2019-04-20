@@ -1,4 +1,5 @@
 # SpecificatR
+[![Build status](https://dev.azure.com/DavidVanderheyden/SpecificatR/_apis/build/status/SpecificatR-ASP.NET%20Core-CI)](https://dev.azure.com/DavidVanderheyden/SpecificatR/_build/latest?definitionId=-1)
 [![Build status](https://ci.appveyor.com/api/projects/status/1fx3shp4cv82qbj9?svg=true)](https://ci.appveyor.com/project/Cr3ature/specificatr)
 
 SpecificatR contains generic repositories and interfaces for building a infrastructure. Based on EntityFramework Core and using the specification Pattern.
