@@ -1,10 +1,12 @@
-﻿using SpecificatR.Infrastructure.Abstractions;
+﻿using Microsoft.EntityFrameworkCore;
+using SpecificatR.Infrastructure.Abstractions;
 using System.Threading.Tasks;
 
 namespace SpecificatR.Infrastructure.Repositories
 {
-    public interface IReadRepository<TEntity, TIdentifier>
+    public interface IReadRepository<TEntity, TIdentifier, TContext>
         where TEntity : class, IBaseEntity<TIdentifier>
+        where TContext : DbContext
     {
         Task<TEntity[]> GetAllAsync();
 

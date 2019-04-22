@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 
 namespace SpecificatR.Infrastructure.Repositories
 {
-    internal class ReadRepository<TEntity, TIdentifier> : IReadRepository<TEntity, TIdentifier>
-       where TEntity : class, IBaseEntity<TIdentifier>
+    internal class ReadRepository<TEntity, TIdentifier, TContext> : IReadRepository<TEntity, TIdentifier, TContext>
+        where TEntity : class, IBaseEntity<TIdentifier>
+        where TContext : DbContext
     {
         protected readonly DbContext _context;
 

@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace SpecificatR.Infrastructure.Repositories
 {
-    internal class ReadWriteRepository<TEntity, TIdentifier> : ReadRepository<TEntity, TIdentifier>, IReadWriteRepository<TEntity, TIdentifier>
+    internal class ReadWriteRepository<TEntity, TIdentifier, TContext> : ReadRepository<TEntity, TIdentifier, TContext>, IReadWriteRepository<TEntity, TIdentifier, TContext>
         where TEntity : class, IBaseEntity<TIdentifier>
+        where TContext : DbContext
     {
         public ReadWriteRepository(DbContext context)
             : base(context)

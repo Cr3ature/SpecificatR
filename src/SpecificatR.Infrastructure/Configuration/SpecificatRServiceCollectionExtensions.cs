@@ -7,8 +7,8 @@ namespace SpecificatR.Infrastructure.Configuration
     {
         public static IServiceCollection AddSpecificatR(this IServiceCollection services)
         {
-            services.AddScoped(typeof(IReadRepository<,>), typeof(ReadRepository<,>));
-            services.AddScoped(typeof(IReadWriteRepository<,>), typeof(ReadWriteRepository<,>));
+            services.AddScoped(typeof(IReadRepository<,,>), typeof(ReadRepository<,,>));
+            services.AddScoped(typeof(IReadWriteRepository<,,>), typeof(ReadWriteRepository<,,>));
 
             return services;
         }

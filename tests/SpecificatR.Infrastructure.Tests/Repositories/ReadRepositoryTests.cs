@@ -27,7 +27,7 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             var dbContextMock = new DbContextMock<TestDbContext>(_options);
             dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => (x.Id), entities);
 
-            var repository = new ReadRepository<TestEntity, Guid>(dbContextMock.Object);
+            var repository = new ReadRepository<TestEntity, Guid, TestDbContext>(dbContextMock.Object);
 
             // Act
             TestEntity result = await repository.GetByIdAsync(entities[0].Id);
@@ -45,7 +45,7 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
 
             var dbContextMock = new DbContextMock<TestDbContext>(_options);
             dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => (x.Id), entities);
-            var repository = new ReadRepository<TestEntity, Guid>(dbContextMock.Object);
+            var repository = new ReadRepository<TestEntity, Guid, TestDbContext>(dbContextMock.Object);
 
             // Act
             TestEntity result = await repository.GetByIdAsync(Guid.NewGuid());
@@ -62,7 +62,7 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
 
             var dbContextMock = new DbContextMock<TestDbContext>(_options);
             dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => (x.Id), entities);
-            var repository = new ReadRepository<TestEntity, Guid>(dbContextMock.Object);
+            var repository = new ReadRepository<TestEntity, Guid, TestDbContext>(dbContextMock.Object);
 
             var specification = new Mock<ISpecification<TestEntity>>();
 
@@ -82,7 +82,7 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
 
             var dbContextMock = new DbContextMock<TestDbContext>(_options);
             dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => (x.Id), entities);
-            var repository = new ReadRepository<TestEntity, Guid>(dbContextMock.Object);
+            var repository = new ReadRepository<TestEntity, Guid, TestDbContext>(dbContextMock.Object);
 
             // Act
             TestEntity[] result = await repository.GetAllAsync();
@@ -100,7 +100,7 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
 
             var dbContextMock = new DbContextMock<TestDbContext>(_options);
             dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => (x.Id), entities);
-            var repository = new ReadRepository<TestEntity, Guid>(dbContextMock.Object);
+            var repository = new ReadRepository<TestEntity, Guid, TestDbContext>(dbContextMock.Object);
 
             var specification = new Mock<ISpecification<TestEntity>>();
 
