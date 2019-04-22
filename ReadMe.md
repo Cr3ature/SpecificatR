@@ -1,4 +1,6 @@
 # SpecificatR
+[![Build Status](https://dev.azure.com/DavidVanderheyden/SpecificatR/_apis/build/status/Build.Pipeline?branchName=master)](https://dev.azure.com/DavidVanderheyden/SpecificatR/_build/latest?definitionId=7&branchName=master)
+[![Build status](https://ci.appveyor.com/api/projects/status/1fx3shp4cv82qbj9?svg=true)](https://ci.appveyor.com/project/Cr3ature/specificatr)
 
 SpecificatR contains generic repositories and interfaces for building a infrastructure. Based on EntityFramework Core and using the specification Pattern.
 
