@@ -4,9 +4,8 @@ using System.Threading.Tasks;
 
 namespace SpecificatR.Infrastructure.Repositories
 {
-    public interface IReadRepository<TEntity, TIdentifier, TContext>
+    public interface IReadRepository<TEntity, TIdentifier>
         where TEntity : class, IBaseEntity<TIdentifier>
-        where TContext : DbContext
     {
         Task<TEntity[]> GetAllAsync();
 

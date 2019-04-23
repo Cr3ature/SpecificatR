@@ -1,24 +1,24 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SpecificatR.Infrastructure.Abstractions;
+using SpecificatR.Infrastructure.Internal;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace SpecificatR.Infrastructure.Repositories
 {
-    internal class ReadRepository<TEntity, TIdentifier, TContext> : IReadRepository<TEntity, TIdentifier, TContext>
+    internal class ReadRepository<TEntity, TIdentifier> : IReadRepository<TEntity, TIdentifier>
         where TEntity : class, IBaseEntity<TIdentifier>
-        where TContext : DbContext
     {
-        protected readonly DbContext _context;
+        protected readonly DbContextResolver ContextResolver;
 
-        public ReadRepository(DbContext context)
+        public ReadRepository(DbContextResolver contextResolver)
         {
-            _context = context;
+            ContextResolver = contextResolver;
         }
 
         public async Task<TEntity[]> GetAllAsync()
         {
-            return await _context.Set<TEntity>().AsNoTracking().ToArrayAsync();
+            return await ContextResolver().Set<TEntity>().AsNoTracking().ToArrayAsync();
         }
 
         public async Task<TEntity[]> GetAllAsync(ISpecification<TEntity> specification)
@@ -28,7 +28,7 @@ namespace SpecificatR.Infrastructure.Repositories
 
         public async Task<TEntity> GetByIdAsync(TIdentifier id)
         {
-            return await _context.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(fod => fod.Id.Equals(id));
+            return await ContextResolver().Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(fod => fod.Id.Equals(id));
         }
 
         public async Task<TEntity> GetSingleWithSpecificationAsync(ISpecification<TEntity> specification)
@@ -40,7 +40,7 @@ namespace SpecificatR.Infrastructure.Repositories
 
         protected IQueryable<TEntity> ApplySpecification(ISpecification<TEntity> specification)
         {
-            return SpecificationEvaluator<TEntity, TIdentifier>.GetQuery(_context.Set<TEntity>().AsQueryable(), specification);
+            return SpecificationEvaluator<TEntity, TIdentifier>.GetQuery(ContextResolver().Set<TEntity>().AsQueryable(), specification);
         }
 
         private async Task<TEntity[]> GetResultSetAsync(ISpecification<TEntity> specification)
