@@ -1,14 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SpecificatR.Infrastructure.Abstractions;
+﻿using SpecificatR.Infrastructure.Abstractions;
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace SpecificatR.Infrastructure.Repositories
 {
-    public interface IReadWriteRepository<TEntity, TIdentifier, TContext>
+    public interface IReadWriteRepository<TEntity, TIdentifier>
         where TEntity : class, IBaseEntity<TIdentifier>
-        where TContext : DbContext
     {
         Task<TEntity> AddAsync(TEntity entity);
 
