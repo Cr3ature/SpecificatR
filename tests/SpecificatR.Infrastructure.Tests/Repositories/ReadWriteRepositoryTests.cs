@@ -2,6 +2,7 @@ using AutoFixture;
 using EntityFrameworkCoreMock;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 using SpecificatR.Infrastructure.Repositories;
 using System;
 using System.Linq;
@@ -28,7 +29,6 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
 
             // Act
             TestEntity result = await repository.AddAsync(entity);
-            await repository.CommitAsync();
 
             // Assert
             result.Id.Should().Be(entity.Id);
@@ -137,11 +137,9 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
 
             // Act
             await repository.UpdateAsync(testEntity);
-            var result = await repository.CommitAsync();
             TestEntity verifyEntity = await repository.GetByIdAsync(testEntity.Id);
 
             // Assert
-            result.Should().Be(1);
             verifyEntity.Name.Should().Be("Han Solo");
             verifyEntity.Number.Should().Be(2);
         }
@@ -213,10 +211,6 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
                 testEntity2.Name = "Sheev Palpatine";
 
                 await repository.UpdateFieldsAsync(testEntity1, te => te.Name);
-                var result = await repository.CommitAsync();
-
-                // Assert
-                result.Should().Be(1);
             }
 
             // Assert
@@ -262,9 +256,6 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
                 var repository = new ReadWriteRepository<TestEntity, Guid>(() => dbContext);
 
                 await repository.UpdateFieldsAsync(testEntity, te => te.Name);
-                var result = await repository.CommitAsync();
-                // Assert
-                result.Should().Be(1);
             }
 
             // Assert
@@ -308,10 +299,8 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             {
                 var repository = new ReadWriteRepository<TestEntity, Guid>(() => dbContext);
                 await repository.UpdateFieldsAsync(testEntity, te => te.Name, te => te.Number);
-                var result = await repository.CommitAsync();
 
                 // Assert
-                result.Should().Be(1);
                 updatedTestEntity = await repository.GetByIdAsync(testEntity.Id);
             }
 
@@ -349,10 +338,8 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
 
                 // Act
                 await repository.UpdateFieldsAsync(testEntity, te => te.Name);
-                var result = await repository.CommitAsync();
 
                 // Assert
-                result.Should().Be(1);
                 updatedTeamMember = await repository.GetByIdAsync(testEntity.Id);
             }
 

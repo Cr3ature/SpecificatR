@@ -9,9 +9,7 @@ namespace SpecificatR.Infrastructure.Repositories
         where TEntity : class, IBaseEntity<TIdentifier>
     {
         Task<TEntity> AddAsync(TEntity entity);
-
-        Task<int> CommitAsync();
-
+        
         Task DeleteAsync(TEntity entity);
 
         Task DeleteByIdAsync(TIdentifier id);

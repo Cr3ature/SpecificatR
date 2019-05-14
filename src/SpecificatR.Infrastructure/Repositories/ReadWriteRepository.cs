@@ -1,4 +1,5 @@
-﻿using SpecificatR.Infrastructure.Abstractions;
+﻿using Microsoft.EntityFrameworkCore;
+using SpecificatR.Infrastructure.Abstractions;
 using SpecificatR.Infrastructure.Internal;
 using System;
 using System.Linq.Expressions;
@@ -14,20 +15,21 @@ namespace SpecificatR.Infrastructure.Repositories
         {
         }
 
-        public Task<TEntity> AddAsync(TEntity entity)
+        public async Task<TEntity> AddAsync(TEntity entity)
         {
             ContextResolver().Set<TEntity>().Add(entity);
-            return Task.FromResult(entity);
-        }
 
-        public async Task<int> CommitAsync()
-        {
-            return await ContextResolver().SaveChangesAsync();
+            await CommitAsync();
+
+            return await Task.FromResult(entity);
         }
 
         public Task DeleteAsync(TEntity entity)
         {
             ContextResolver().Set<TEntity>().Remove(entity);
+
+            ContextResolver().SaveChanges();
+
             return Task.CompletedTask;
         }
 
@@ -39,11 +41,16 @@ namespace SpecificatR.Infrastructure.Repositories
                 throw new NullReferenceException();
 
             ContextResolver().Set<TEntity>().Remove(entity);
+
+            await CommitAsync();
         }
 
         public Task UpdateAsync(TEntity entity)
         {
             ContextResolver().Update(entity);
+
+            ContextResolver().SaveChanges();
+
             return Task.CompletedTask;
         }
 
@@ -72,7 +79,14 @@ namespace SpecificatR.Infrastructure.Repositories
                 ContextResolver().Entry(entity).Property(propertyName).IsModified = true;
             }
 
+            ContextResolver().SaveChanges();
+
             return Task.CompletedTask;
+        }
+
+        internal async Task<int> CommitAsync()
+        {
+            return await ContextResolver().SaveChangesAsync();
         }
     }
 }
