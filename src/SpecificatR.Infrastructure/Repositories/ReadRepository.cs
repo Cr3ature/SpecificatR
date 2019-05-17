@@ -6,19 +6,20 @@ using System.Threading.Tasks;
 
 namespace SpecificatR.Infrastructure.Repositories
 {
-    internal class ReadRepository<TEntity, TIdentifier> : IReadRepository<TEntity, TIdentifier>
+    internal class ReadRepository<TEntity, TIdentifier, TDbContext> : IReadRepository<TEntity, TIdentifier, TDbContext>
         where TEntity : class, IBaseEntity<TIdentifier>
+        where TDbContext : DbContext
     {
-        protected readonly DbContextResolver ContextResolver;
+        protected readonly TDbContext _context;
 
-        public ReadRepository(DbContextResolver contextResolver)
+        public ReadRepository(TDbContext context)
         {
-            ContextResolver = contextResolver;
+            _context = context;
         }
 
         public async Task<TEntity[]> GetAllAsync()
         {
-            return await ContextResolver().Set<TEntity>().AsNoTracking().ToArrayAsync();
+            return await _context.Set<TEntity>().AsNoTracking().ToArrayAsync();
         }
 
         public async Task<TEntity[]> GetAllAsync(ISpecification<TEntity> specification)
@@ -28,7 +29,7 @@ namespace SpecificatR.Infrastructure.Repositories
 
         public async Task<TEntity> GetByIdAsync(TIdentifier id)
         {
-            return await ContextResolver().Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(fod => fod.Id.Equals(id));
+            return await _context.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(fod => fod.Id.Equals(id));
         }
 
         public async Task<TEntity> GetSingleWithSpecificationAsync(ISpecification<TEntity> specification)
@@ -40,7 +41,7 @@ namespace SpecificatR.Infrastructure.Repositories
 
         protected IQueryable<TEntity> ApplySpecification(ISpecification<TEntity> specification)
         {
-            return SpecificationEvaluator<TEntity, TIdentifier>.GetQuery(ContextResolver().Set<TEntity>().AsQueryable(), specification);
+            return SpecificationEvaluator<TEntity, TIdentifier>.GetQuery(_context.Set<TEntity>().AsQueryable(), specification);
         }
 
         private async Task<TEntity[]> GetResultSetAsync(ISpecification<TEntity> specification)

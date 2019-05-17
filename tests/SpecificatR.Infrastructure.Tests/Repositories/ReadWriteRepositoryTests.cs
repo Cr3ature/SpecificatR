@@ -25,7 +25,7 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             var dbContextMock = new DbContextMock<TestDbContext>(_options);
             dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => (x.Id));
 
-            var repository = new ReadWriteRepository<TestEntity, Guid>(() => dbContextMock.Object);
+            var repository = new ReadWriteRepository<TestEntity, Guid, TestDbContext>(dbContextMock.Object);
 
             // Act
             TestEntity result = await repository.AddAsync(entity);
@@ -43,7 +43,7 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             var dbContextMock = new DbContextMock<TestDbContext>(_options);
             dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => (x.Id), entities);
 
-            var repository = new ReadWriteRepository<TestEntity, Guid>(() => dbContextMock.Object);
+            var repository = new ReadWriteRepository<TestEntity, Guid, TestDbContext>(dbContextMock.Object);
 
             // Act
             await repository.DeleteAsync(entities[0]);
@@ -63,7 +63,7 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             var dbContextMock = new DbContextMock<TestDbContext>(_options);
             dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => (x.Id), entities);
 
-            var repository = new ReadWriteRepository<TestEntity, Guid>(() => dbContextMock.Object);
+            var repository = new ReadWriteRepository<TestEntity, Guid, TestDbContext>(dbContextMock.Object);
 
             // Act
             await repository.DeleteAsync(_fixture.Create<TestEntity>());
@@ -83,7 +83,7 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
 
             var dbContextMock = new DbContextMock<TestDbContext>(_options);
             dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => (x.Id), entities);
-            var repository = new ReadWriteRepository<TestEntity, Guid>(() => dbContextMock.Object);
+            var repository = new ReadWriteRepository<TestEntity, Guid, TestDbContext>(dbContextMock.Object);
 
             // Act
             await repository.DeleteByIdAsync(entities[0].Id);
@@ -103,7 +103,7 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
 
             var dbContextMock = new DbContextMock<TestDbContext>(_options);
             dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => (x.Id), entities);
-            var repository = new ReadWriteRepository<TestEntity, Guid>(() => dbContextMock.Object);
+            var repository = new ReadWriteRepository<TestEntity, Guid, TestDbContext>(dbContextMock.Object);
 
             // Act
             Func<Task> deleteEntity = async () => await repository.DeleteByIdAsync(Guid.NewGuid());
@@ -128,7 +128,7 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
                .Options;
 
             var dbContext = new TestDbContext(options);
-            var repository = new ReadWriteRepository<TestEntity, Guid>(() => dbContext);
+            var repository = new ReadWriteRepository<TestEntity, Guid, TestDbContext>(dbContext);
 
             dbContext.Add(testEntity);
             await dbContext.SaveChangesAsync();
@@ -160,7 +160,7 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
                .Options;
 
             var dbContext = new TestDbContext(options);
-            var repository = new ReadWriteRepository<TestEntity, Guid>(() => dbContext);
+            var repository = new ReadWriteRepository<TestEntity, Guid, TestDbContext>(dbContext);
 
             dbContext.Add(testEntity);
             await dbContext.SaveChangesAsync();
@@ -204,7 +204,7 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             // Act
             using (var dbContext = new TestDbContext(options))
             {
-                var repository = new ReadWriteRepository<TestEntity, Guid>(() => dbContext);
+                var repository = new ReadWriteRepository<TestEntity, Guid, TestDbContext>(dbContext);
                 testEntity1 = await repository.GetByIdAsync(testEntity1.Id);
                 testEntity1.Name = "Darth Vader";
                 testEntity1.Number = 45;
@@ -216,7 +216,7 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             // Assert
             using (var dbContext = new TestDbContext(options))
             {
-                var repository = new ReadWriteRepository<TestEntity, Guid>(() => dbContext);
+                var repository = new ReadWriteRepository<TestEntity, Guid, TestDbContext>(dbContext);
                 TestEntity updatedTestEntity1 = await repository.GetByIdAsync(testEntity1.Id);
                 TestEntity updatedTestEntity2 = await repository.GetByIdAsync(testEntity2.Id);
 
@@ -253,7 +253,7 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             // Act
             using (var dbContext = new TestDbContext(options))
             {
-                var repository = new ReadWriteRepository<TestEntity, Guid>(() => dbContext);
+                var repository = new ReadWriteRepository<TestEntity, Guid, TestDbContext>(dbContext);
 
                 await repository.UpdateFieldsAsync(testEntity, te => te.Name);
             }
@@ -261,7 +261,7 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             // Assert
             using (var dbContext = new TestDbContext(options))
             {
-                var repository = new ReadWriteRepository<TestEntity, Guid>(() => dbContext);
+                var repository = new ReadWriteRepository<TestEntity, Guid, TestDbContext>(dbContext);
                 TestEntity updatedTestEntity = await repository.GetByIdAsync(testEntity.Id);
                 updatedTestEntity.Name.Should().Be("Obi-Wan Kenobi");
                 updatedTestEntity.Number.Should().Be(1);
@@ -297,7 +297,7 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             // Act
             using (var dbContext = new TestDbContext(options))
             {
-                var repository = new ReadWriteRepository<TestEntity, Guid>(() => dbContext);
+                var repository = new ReadWriteRepository<TestEntity, Guid, TestDbContext>(dbContext);
                 await repository.UpdateFieldsAsync(testEntity, te => te.Name, te => te.Number);
 
                 // Assert
@@ -334,7 +334,7 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             TestEntity updatedTeamMember = null;
             using (var dbContext = new TestDbContext(options))
             {
-                var repository = new ReadWriteRepository<TestEntity, Guid>(() => dbContext);
+                var repository = new ReadWriteRepository<TestEntity, Guid, TestDbContext>(dbContext);
 
                 // Act
                 await repository.UpdateFieldsAsync(testEntity, te => te.Name);

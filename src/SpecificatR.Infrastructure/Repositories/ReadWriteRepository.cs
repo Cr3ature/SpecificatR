@@ -7,17 +7,18 @@ using System.Threading.Tasks;
 
 namespace SpecificatR.Infrastructure.Repositories
 {
-    internal class ReadWriteRepository<TEntity, TIdentifier> : ReadRepository<TEntity, TIdentifier>, IReadWriteRepository<TEntity, TIdentifier>
+    internal class ReadWriteRepository<TEntity, TIdentifier, TDbContext> : ReadRepository<TEntity, TIdentifier, TDbContext>, IReadWriteRepository<TEntity, TIdentifier, TDbContext>
         where TEntity : class, IBaseEntity<TIdentifier>
+        where TDbContext : DbContext
     {
-        public ReadWriteRepository(DbContextResolver context)
+        public ReadWriteRepository(TDbContext context)
             : base(context)
         {
         }
 
         public async Task<TEntity> AddAsync(TEntity entity)
         {
-            ContextResolver().Set<TEntity>().Add(entity);
+            _context.Set<TEntity>().Add(entity);
 
             await CommitAsync();
 
@@ -26,37 +27,37 @@ namespace SpecificatR.Infrastructure.Repositories
 
         public Task DeleteAsync(TEntity entity)
         {
-            ContextResolver().Set<TEntity>().Remove(entity);
+            _context.Set<TEntity>().Remove(entity);
 
-            ContextResolver().SaveChanges();
+            _context.SaveChanges();
 
             return Task.CompletedTask;
         }
 
         public async Task DeleteByIdAsync(TIdentifier id)
         {
-            TEntity entity = await ContextResolver().Set<TEntity>().FindAsync(id);
+            TEntity entity = await _context.Set<TEntity>().FindAsync(id);
 
             if (entity == null)
                 throw new NullReferenceException();
 
-            ContextResolver().Set<TEntity>().Remove(entity);
+            _context.Set<TEntity>().Remove(entity);
 
             await CommitAsync();
         }
 
         public Task UpdateAsync(TEntity entity)
         {
-            ContextResolver().Update(entity);
+            _context.Update(entity);
 
-            ContextResolver().SaveChanges();
+            _context.SaveChanges();
 
             return Task.CompletedTask;
         }
 
         public Task UpdateFieldsAsync(TEntity entity, params Expression<Func<TEntity, object>>[] properties)
         {
-            ContextResolver().Attach(entity);
+            _context.Attach(entity);
 
             foreach (Expression<Func<TEntity, object>> property in properties)
             {
@@ -76,17 +77,17 @@ namespace SpecificatR.Infrastructure.Repositories
                     throw new NotSupportedException();
                 }
 
-                ContextResolver().Entry(entity).Property(propertyName).IsModified = true;
+                _context.Entry(entity).Property(propertyName).IsModified = true;
             }
 
-            ContextResolver().SaveChanges();
+            _context.SaveChanges();
 
             return Task.CompletedTask;
         }
 
         internal async Task<int> CommitAsync()
         {
-            return await ContextResolver().SaveChangesAsync();
+            return await _context.SaveChangesAsync();
         }
     }
 }

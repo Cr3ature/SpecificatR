@@ -10,9 +10,8 @@ namespace SpecificatR.Infrastructure.Configuration
         public static IServiceCollection AddSpecificatR<TDbContext>(this IServiceCollection services)
             where TDbContext : DbContext
         {
-            services.AddScoped<DbContextResolver>(provider => () => provider.GetService<TDbContext>());
-            services.AddScoped(typeof(IReadRepository<,>), typeof(ReadRepository<,>));
-            services.AddScoped(typeof(IReadWriteRepository<,>), typeof(ReadWriteRepository<,>));
+            services.AddScoped(typeof(IReadRepository<,,>), typeof(ReadRepository<,,>));
+            services.AddScoped(typeof(IReadWriteRepository<,,>), typeof(ReadWriteRepository<,,>));
 
             return services;
         }
