@@ -9,7 +9,7 @@
     <Description>SpecificatR contains generic repositories (Read/ReadWrite) and interfaces for building a database infrastructure using EntityFramework Core and following the Specification Pattern</Description>
     <RepositoryUrl>https://github.com/Cr3ature/SpecificatR</RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/Cr3ature/SpecificatR</PackageProjectUrl>
   </PropertyGroup>
 
