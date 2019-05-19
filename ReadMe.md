@@ -59,15 +59,21 @@ Registering the dependencies in an ASP.NET Core application, using Microsoft.Ext
         public ExampleSpecification()
             : base(BuildCriteria(id: 3))
         {
-            //Use Includes
+            // Use Includes
             this.AddInclude(example => example.Child);
 
-            //Use ordering asc or desc
+            // Use ordering asc or desc
             this.AddOrderBy(example => example.Id, OrderByDirection.Ascending);
             this.AddOrderBy(example => example.Id, OrderByDirection.Descending);
 
-            //Use Paging
+            // Use Paging
             this.ApplyPaging(pageIndex: 1, pageSize: 20);
+            
+            // Ignore query filters
+            this.AddIgnoreQueryFilters();
+            
+            // Enable EF Core tracking (Default: AsNoTracking())
+            this.ApplyTracking();
         }
 
         //Create the where clause based on Linq Expression
@@ -83,6 +89,18 @@ public Example : IBaseEntity<int>
 {
    public int Id {get;set;}
    public string Name {get;set;}
+}
+````
+
+### Using the repositories
+Using ReadRepository and inject in any domain or business layer class.
+````csharp
+// IReadRepository<TEntity, TIdentifier, TDbContext>
+private readonly IReadRepository<TEntity: Example, TIdentifier: int, TDbContext: ExampleContext> _exampleRepository;
+
+public ExampleClass(IReadRepository<TEntity: Example, TIdentifier: int, TDbContext: ExampleContext> exampleRepository)
+{
+    _exampleRepository = exampleRepository;
 }
 ````
 
