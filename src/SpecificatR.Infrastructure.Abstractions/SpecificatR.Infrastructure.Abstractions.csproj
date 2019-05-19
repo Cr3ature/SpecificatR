@@ -9,7 +9,6 @@
     <Description>SpecificatR abstractions contains contracts, enum and interfaces needed to use SpecificatR</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/Cr3ature/SpecificatR</PackageProjectUrl>
   </PropertyGroup>
 
 </Project>
