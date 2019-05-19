@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SpecificatR.Infrastructure.Abstractions;
-using SpecificatR.Infrastructure.Internal;
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;

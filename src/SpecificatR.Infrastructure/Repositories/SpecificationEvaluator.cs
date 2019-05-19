@@ -22,6 +22,10 @@ namespace SpecificatR.Infrastructure.Repositories
 
             outputQuery = SetOrderBy(outputQuery, specification);
 
+            outputQuery = SetIgnoreQueryFilters(outputQuery, specification);
+
+            outputQuery = SetTracking(outputQuery, specification);
+
             return outputQuery;
         }
 
@@ -39,7 +43,31 @@ namespace SpecificatR.Infrastructure.Repositories
 
             outputQuery = SetOrderBy(outputQuery, specification);
 
+            outputQuery = SetIgnoreQueryFilters(outputQuery, specification);
+
+            outputQuery = SetTracking(outputQuery, specification);
+
             return (outputQuery, filteredCount);
+        }
+
+        private static IQueryable<ClassType> SetTracking(IQueryable<ClassType> outputQuery, ISpecification<ClassType> specification)
+        {
+            if (specification.AsTracking)
+            {
+                return outputQuery;
+            }
+
+            return outputQuery.AsNoTracking();
+        }
+
+        private static IQueryable<ClassType> SetIgnoreQueryFilters(IQueryable<ClassType> outputQuery, ISpecification<ClassType> specification)
+        {
+            if (specification.IgnoreQueryFilters)
+            {
+                return outputQuery.IgnoreQueryFilters();
+            }
+
+            return outputQuery;
         }
 
         private static IQueryable<ClassType> SetCriteria(IQueryable<ClassType> outputQuery, Expression<Func<ClassType, bool>> criteria)

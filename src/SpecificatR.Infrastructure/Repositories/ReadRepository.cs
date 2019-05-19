@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SpecificatR.Infrastructure.Abstractions;
-using SpecificatR.Infrastructure.Internal;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,8 +16,13 @@ namespace SpecificatR.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<TEntity[]> GetAllAsync()
+        public async Task<TEntity[]> GetAllAsync(bool asTracking)
         {
+            if (asTracking)
+            {
+                return await _context.Set<TEntity>().ToArrayAsync();
+            }
+
             return await _context.Set<TEntity>().AsNoTracking().ToArrayAsync();
         }
 
@@ -27,8 +31,13 @@ namespace SpecificatR.Infrastructure.Repositories
             return await GetResultSetAsync(specification);
         }
 
-        public async Task<TEntity> GetByIdAsync(TIdentifier id)
+        public async Task<TEntity> GetByIdAsync(TIdentifier id, bool asTracking)
         {
+            if (asTracking)
+            {
+                return await _context.Set<TEntity>().FirstOrDefaultAsync(fod => fod.Id.Equals(id));
+            }
+
             return await _context.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(fod => fod.Id.Equals(id));
         }
 
@@ -46,7 +55,7 @@ namespace SpecificatR.Infrastructure.Repositories
 
         private async Task<TEntity[]> GetResultSetAsync(ISpecification<TEntity> specification)
         {
-            return await ApplySpecification(specification).AsNoTracking().ToArrayAsync();
+            return await ApplySpecification(specification).ToArrayAsync();
         }
     }
 }
