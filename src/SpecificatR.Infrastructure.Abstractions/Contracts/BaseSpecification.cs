@@ -74,7 +74,7 @@ namespace SpecificatR.Infrastructure.Abstractions
         }
 
         /// <summary>
-        /// Set retrieved query as no tracking in EF Core. By default queries will not be tracked with specifications.
+        /// Set retrieved query as tracking in EF Core. By default queries will not be tracked with specifications (AsNoTracking).
         /// </summary>
         protected virtual void ApplyTracking()
         {
