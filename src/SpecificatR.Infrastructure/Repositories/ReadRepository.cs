@@ -16,7 +16,7 @@ namespace SpecificatR.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<TEntity[]> GetAllAsync(bool asTracking)
+        public async Task<TEntity[]> GetAllAsync(bool asTracking = false)
         {
             if (asTracking)
             {
@@ -31,7 +31,7 @@ namespace SpecificatR.Infrastructure.Repositories
             return await GetResultSetAsync(specification);
         }
 
-        public async Task<TEntity> GetByIdAsync(TIdentifier id, bool asTracking)
+        public async Task<TEntity> GetByIdAsync(TIdentifier id, bool asTracking = false)
         {
             if (asTracking)
             {
