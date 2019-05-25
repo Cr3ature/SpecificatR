@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RepositoryUrl>https://github.com/Cr3ature/SpecificatR</RepositoryUrl>
+    <Authors>David Vanderheyden</Authors>
+    <Product>SpecificatR.UnitTest.Abstractions</Product>
+    <PackageId>SpecificatR.UnitTest.Abstractions</PackageId>
+    <Description>SpecificatR UnitTest Abstractions contains all the essentials to unit test specifications created for use with SpecificatR</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+      <_Parameter1>$(AssemblyName).Tests</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SpecificatR.Infrastructure\SpecificatR.Infrastructure.csproj" />
+  </ItemGroup>
+  
+</Project>

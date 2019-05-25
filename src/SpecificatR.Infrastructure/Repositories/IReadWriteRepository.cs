@@ -1,11 +1,26 @@
-﻿using Microsoft.EntityFrameworkCore;
-using SpecificatR.Infrastructure.Abstractions;
-using System;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
+﻿//-----------------------------------------------------------------------
+// <copyright file="IReadWriteRepository.cs" company="David Vanderheyden">
+//     Copyright (c) 2019 All Rights Reserved
+// </copyright>
+// <licensed>Distributed under Apache-2.0 license</licensed>
+// <author>David Vanderheyden</author>
+// <date>25/05/2019 10:10:44</date>
+//-----------------------------------------------------------------------
 
 namespace SpecificatR.Infrastructure.Repositories
 {
+    using Microsoft.EntityFrameworkCore;
+    using SpecificatR.Infrastructure.Abstractions;
+    using System;
+    using System.Linq.Expressions;
+    using System.Threading.Tasks;
+
+    /// <summary>
+    /// Defines the <see cref="IReadWriteRepository{TEntity, TIdentifier, TDbContext}" />
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
+    /// <typeparam name="TIdentifier"></typeparam>
+    /// <typeparam name="TDbContext"></typeparam>
     public interface IReadWriteRepository<TEntity, TIdentifier, TDbContext> : IReadRepository<TEntity, TIdentifier, TDbContext>
         where TEntity : class, IBaseEntity<TIdentifier>
         where TDbContext : DbContext

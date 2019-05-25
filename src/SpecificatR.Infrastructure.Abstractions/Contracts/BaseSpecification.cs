@@ -1,38 +1,95 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
+﻿//-----------------------------------------------------------------------
+// <copyright file="BaseSpecification.cs" company="David Vanderheyden">
+//     Copyright (c) 2019 All Rights Reserved
+// </copyright>
+// <licensed>Distributed under Apache-2.0 license</licensed>
+// <author>David Vanderheyden</author>
+// <date>25/05/2019 10:10:46</date>
+//-----------------------------------------------------------------------
 
 namespace SpecificatR.Infrastructure.Abstractions
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq.Expressions;
+
+    /// <summary>
+    /// Defines the <see cref="BaseSpecification{TEntity}" />
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
     public abstract class BaseSpecification<TEntity> : ISpecification<TEntity>
     {
+        /// <summary>
+        /// Defines the _includes
+        /// </summary>
         private readonly HashSet<Expression<Func<TEntity, object>>> _includes = new HashSet<Expression<Func<TEntity, object>>>();
+
+        /// <summary>
+        /// Defines the _orderByExpressions
+        /// </summary>
         private readonly HashSet<OrderByExpression<TEntity>> _orderByExpressions = new HashSet<OrderByExpression<TEntity>>();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BaseSpecification{TEntity}"/> class.
+        /// </summary>
+        /// <param name="criteria">The criteria<see cref="Expression{Func{TEntity, bool}}"/></param>
         protected BaseSpecification(Expression<Func<TEntity, bool>> criteria)
         {
             Criteria = criteria;
         }
 
-        public Expression<Func<TEntity, bool>> Criteria { get; }
-
-        public IReadOnlyCollection<Expression<Func<TEntity, object>>> Includes => _includes;
-
-        public bool IsPagingEnabled { get; private set; } = false;
-
+        /// <summary>
+        /// Gets a value indicating whether AsTracking
+        /// </summary>
         public bool AsTracking { get; private set; } = false;
 
-        public IReadOnlyCollection<OrderByExpression<TEntity>> OrderByExpressions => _orderByExpressions;
+        /// <summary>
+        /// Gets the Criteria
+        /// </summary>
+        public Expression<Func<TEntity, bool>> Criteria { get; }
 
-        public int Skip { get; private set; }
-
-        public int Take { get; private set; }
-
+        /// <summary>
+        /// Gets a value indicating whether IgnoreQueryFilters
+        /// </summary>
         public bool IgnoreQueryFilters { get; private set; } = false;
 
         /// <summary>
+        /// Gets the Includes
+        /// </summary>
+        public IReadOnlyCollection<Expression<Func<TEntity, object>>> Includes => _includes;
+
+        /// <summary>
+        /// Gets a value indicating whether IsPagingEnabled
+        /// </summary>
+        public bool IsPagingEnabled { get; private set; } = false;
+
+        /// <summary>
+        /// Gets the OrderByExpressions
+        /// </summary>
+        public IReadOnlyCollection<OrderByExpression<TEntity>> OrderByExpressions => _orderByExpressions;
+
+        /// <summary>
+        /// Gets the Skip
+        /// </summary>
+        public int Skip { get; private set; }
+
+        /// <summary>
+        /// Gets the Take
+        /// </summary>
+        public int Take { get; private set; }
+
+        /// <summary>
+        /// Ignore query filters
+        /// <para>If entities are set with additional QueryFilters (<see cref="https://docs.microsoft.com/en-us/ef/core/querying/filters"/>), <c>IgnoreQueryFilters</c> can be used to ignore these set QueryFilters</para>
+        /// </summary>
+        protected virtual void AddIgnoreQueryFilters()
+        {
+            IgnoreQueryFilters = true;
+        }
+
+        /// <summary>
         /// To add Specific related entities to include in the query results.
-        /// <para>Example: <code>AddInclude(customer => customer.Addresses.Select(address => address.Country);</code></para> 
+        /// <para>Example: <code>AddInclude(customer => customer.Addresses.Select(address => address.Country);</code></para>
         /// </summary>
         /// <param name="includeExpression"></param>
         protected virtual void AddInclude(Expression<Func<TEntity, object>> includeExpression)
@@ -49,15 +106,6 @@ namespace SpecificatR.Infrastructure.Abstractions
         protected virtual void AddOrderBy(Expression<Func<TEntity, object>> orderByExpression, OrderByDirection orderByDirection)
         {
             _orderByExpressions.Add(new OrderByExpression<TEntity>(orderByExpression, orderByDirection));
-        }
-
-        /// <summary>
-        /// Ignore query filters
-        /// <para>If entities are set with additional QueryFilters (<see cref="https://docs.microsoft.com/en-us/ef/core/querying/filters"/>), <c>IgnoreQueryFilters</c> can be used to ignore these set QueryFilters</para>
-        /// </summary>
-        protected virtual void AddIgnoreQueryFilters()
-        {
-            IgnoreQueryFilters = true;
         }
 
         /// <summary>

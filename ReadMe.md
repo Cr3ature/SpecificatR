@@ -7,12 +7,12 @@ Supports .NET Core, .NET Standard, .NET Framework
 
 ## Get it on Nuget
 
-The main package:
+The main package on [nuget.org](https://www.nuget.org/packages/SpecificatR/):
 ``` csharp
 PM> Install-Package SpecificatR
 ```
 
-The abstractions containing basemodel and specification interfaces:
+The abstractions containing basemodel and specification interfaces on [nuget.org](https://www.nuget.org/packages/SpecificatR.Abstractions/):
 ``` csharp
 PM> Install-Package SpecificatR.Abstractions
 ```

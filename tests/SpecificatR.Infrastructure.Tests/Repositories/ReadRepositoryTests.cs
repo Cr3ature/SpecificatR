@@ -1,23 +1,53 @@
-using AutoFixture;
-using EntityFrameworkCoreMock;
-using FluentAssertions;
-using Microsoft.EntityFrameworkCore;
-using Moq;
-using SpecificatR.Infrastructure.Abstractions;
-using SpecificatR.Infrastructure.Repositories;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Xunit;
+//-----------------------------------------------------------------------
+// <copyright file="ReadRepositoryTests.cs" company="David Vanderheyden">
+//     Copyright (c) 2019 All Rights Reserved
+// </copyright>
+// <licensed>Distributed under Apache-2.0 license</licensed>
+// <author>David Vanderheyden</author>
+// <date>25/05/2019 10:10:48</date>
+//-----------------------------------------------------------------------
 
 namespace SpecificatR.Infrastructure.Tests.Repositories
 {
+    using AutoFixture;
+    using EntityFrameworkCoreMock;
+    using FluentAssertions;
+    using Microsoft.EntityFrameworkCore;
+    using Moq;
+    using SpecificatR.Infrastructure.Abstractions;
+    using SpecificatR.Infrastructure.Repositories;
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Xunit;
+
+    /// <summary>
+    /// Defines the <see cref="ReadRepositoryTests" />
+    /// </summary>
     public class ReadRepositoryTests
     {
+        /// <summary>
+        /// Defines the _fixture
+        /// </summary>
         private readonly IFixture _fixture = new Fixture();
 
+        /// <summary>
+        /// Defines the _options
+        /// </summary>
         private readonly DbContextOptions<TestDbContext> _options = new DbContextOptions<TestDbContext>();
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadRepositoryTests"/> class.
+        /// </summary>
+        public ReadRepositoryTests()
+        {
+            _fixture.Customize<TestEntity>(testEntity => testEntity.Without(w => w.Children));
+        }
+
+        /// <summary>
+        /// The GetByIdAsync_ShouldReturnEntity
+        /// </summary>
+        /// <returns>The <see cref="Task"/></returns>
         [Fact]
         public async Task GetByIdAsync_ShouldReturnEntity()
         {
@@ -37,6 +67,52 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             result.Should().BeEquivalentTo(entities[0]);
         }
 
+        /// <summary>
+        /// The GetByIdAsync_UnknownId_ShouldReturnNull
+        /// </summary>
+        /// <returns>The <see cref="Task"/></returns>
+        [Fact]
+        public async Task GetByIdAsync_UnknownId_ShouldReturnNull()
+        {
+            // Arrange
+            TestEntity[] entities = _fixture.CreateMany<TestEntity>(2).ToArray();
+
+            var dbContextMock = new DbContextMock<TestDbContext>(_options);
+            dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => (x.Id), entities);
+            var repository = new ReadRepository<TestEntity, Guid, TestDbContext>(dbContextMock.Object);
+
+            // Act
+            TestEntity result = await repository.GetByIdAsync(Guid.NewGuid());
+
+            // Assert
+            result.Should().BeNull();
+        }
+
+        /// <summary>
+        /// The GetByIdAsync_UnknownIdAndWithTracking_ShouldReturnNull
+        /// </summary>
+        /// <returns>The <see cref="Task"/></returns>
+        [Fact]
+        public async Task GetByIdAsync_UnknownIdAndWithTracking_ShouldReturnNull()
+        {
+            // Arrange
+            TestEntity[] entities = _fixture.CreateMany<TestEntity>(2).ToArray();
+
+            var dbContextMock = new DbContextMock<TestDbContext>(_options);
+            dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => (x.Id), entities);
+            var repository = new ReadRepository<TestEntity, Guid, TestDbContext>(dbContextMock.Object);
+
+            // Act
+            TestEntity result = await repository.GetByIdAsync(Guid.NewGuid(), true);
+
+            // Assert
+            result.Should().BeNull();
+        }
+
+        /// <summary>
+        /// The GetByIdAsync_WithTracking_ShouldReturnEntity
+        /// </summary>
+        /// <returns>The <see cref="Task"/></returns>
         [Fact]
         public async Task GetByIdAsync_WithTracking_ShouldReturnEntity()
         {
@@ -56,41 +132,10 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             result.Should().BeEquivalentTo(entities[0]);
         }
 
-        [Fact]
-        public async Task GetByIdAsync_UnknownId_ShouldReturnNull()
-        {
-            // Arrange
-            TestEntity[] entities = _fixture.CreateMany<TestEntity>(2).ToArray();
-
-            var dbContextMock = new DbContextMock<TestDbContext>(_options);
-            dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => (x.Id), entities);
-            var repository = new ReadRepository<TestEntity, Guid, TestDbContext>(dbContextMock.Object);
-
-            // Act
-            TestEntity result = await repository.GetByIdAsync(Guid.NewGuid());
-
-            // Assert
-            result.Should().BeNull();
-        }
-
-        [Fact]
-        public async Task GetByIdAsync_UnknownIdAndWithTracking_ShouldReturnNull()
-        {
-            // Arrange
-            TestEntity[] entities = _fixture.CreateMany<TestEntity>(2).ToArray();
-
-            var dbContextMock = new DbContextMock<TestDbContext>(_options);
-            dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => (x.Id), entities);
-            var repository = new ReadRepository<TestEntity, Guid, TestDbContext>(dbContextMock.Object);
-
-            // Act
-            TestEntity result = await repository.GetByIdAsync(Guid.NewGuid(), true);
-
-            // Assert
-            result.Should().BeNull();
-        }
-
-
+        /// <summary>
+        /// The GetByIdAsyncWithSpecification_ShouldApplySpecification
+        /// </summary>
+        /// <returns>The <see cref="Task"/></returns>
         [Fact]
         public async Task GetByIdAsyncWithSpecification_ShouldApplySpecification()
         {
@@ -111,6 +156,10 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             result.Should().BeOfType(typeof(TestEntity));
         }
 
+        /// <summary>
+        /// The ListAllAsync_ShouldReturnEntities
+        /// </summary>
+        /// <returns>The <see cref="Task"/></returns>
         [Fact]
         public async Task ListAllAsync_ShouldReturnEntities()
         {
@@ -129,6 +178,10 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             result.Should().HaveCount(2);
         }
 
+        /// <summary>
+        /// The ListAllAsync_WithTracking_ShouldReturnEntities
+        /// </summary>
+        /// <returns>The <see cref="Task"/></returns>
         [Fact]
         public async Task ListAllAsync_WithTracking_ShouldReturnEntities()
         {
@@ -147,6 +200,10 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             result.Should().HaveCount(2);
         }
 
+        /// <summary>
+        /// The ListAllAsyncWithSpecification_ShouldApplySpecification
+        /// </summary>
+        /// <returns>The <see cref="Task"/></returns>
         [Fact]
         public async Task ListAllAsyncWithSpecification_ShouldApplySpecification()
         {
