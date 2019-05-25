@@ -17,6 +17,10 @@ The abstractions containing basemodel and specification interfaces on [nuget.org
 PM> Install-Package SpecificatR.Abstractions
 ```
 
+Abstractions for unit testing build specifications on [nuget.org](https://www.nuget.org/packages/SpecificatR.UnitTest.Abstractions/):
+````csharp 
+PM> Install-Package SpecificatR.UnitTest.Abstractions
+````
 ## Usage
 ### Registering dependencies
 Registering the dependencies in an ASP.NET Core application, using Microsoft.Extensions.DependencyInjection, is pretty simple:
@@ -47,6 +51,7 @@ services
 
 services.AddSpecificatR<ExampleContext>();
 ```` 
+
 
 Need support for a different container? Feel free to [open a new issue](https://github.com/Cr3ature/SpecificatR/issues/new)
 
@@ -104,6 +109,42 @@ public ExampleClass(IReadRepository<TEntity: Example, TIdentifier: int, TDbConte
 }
 ````
 
+Available repository methods
+
+##### IReadRepository
+````csharp
+
+// Get all entities with optional tracked by EF Core. Default is set to AsNoTracking
+Task<TEntity[]> GetAllAsync(bool asTracking = false);
+
+// Get all entities based on specification (Query object).
+Task<TEntity[]> GetAllAsync(ISpecification<TEntity> specification);
+
+// Get entity with optional tracked by EF Core by Id. Default is set to AsNoTracking().
+Task<TEntity> GetByIdAsync(TIdentifier id, bool asTracking = false);
+
+// Get entity based on specification (Query object).
+Task<TEntity> GetSingleWithSpecificationAsync(ISpecification<TEntity> specification);
+````
+
+##### IReadWriteRepository (All methods from IReadRepository with additional write methods below)
+
+````csharp
+
+// Add entity to database
+Task<TEntity> AddAsync(TEntity entity);
+
+// Delete entity on database
+Task DeleteByIdAsync(TIdentifier id);
+
+// Update all properties of a entity in database
+Task UpdateAsync(TEntity entity);
+
+// Update specific properties of a entity in database
+Task UpdateFieldsAsync(TEntity entity, params Expression<Func<TEntity, object>>[] properties);
+````
+
 ### Todo
 
 - Projections: An expression to project the query to a new object. In the current version of EntityFrameworkCore, this gives issues when projecting nested entities, causing N+1 queries. [This issue should be resolved in EFCore 3](https://github.com/aspnet/EntityFrameworkCore/issues/12098#issuecomment-455997159), therefore I put this on todo list.
+- Extend readme with unit test examples
