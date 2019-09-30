@@ -17,9 +17,8 @@ namespace SpecificatR.Infrastructure.Internal
     /// Defines the <see cref="ApplySpecification"/>
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    /// <typeparam name="TIdentifier"></typeparam>
-    internal class SpecificationResolver<TEntity, TIdentifier>
-         where TEntity : class, IBaseEntity<TIdentifier>
+    internal class SpecificationResolver<TEntity>
+         where TEntity : class
     {
         /// <summary>
         /// The GetResultSetAsync
@@ -53,7 +52,7 @@ namespace SpecificatR.Infrastructure.Internal
         /// <returns>The <see cref="IQueryable{TEntity}"/></returns>
         protected static IQueryable<TEntity> ApplySpecification(IQueryable<TEntity> inputQuery, ISpecification<TEntity> specification)
         {
-            return SpecificationEvaluator<TEntity, TIdentifier>.GetQuery(inputQuery: inputQuery, specification: specification);
+            return SpecificationEvaluator<TEntity>.GetQuery(inputQuery: inputQuery, specification: specification);
         }
     }
 }

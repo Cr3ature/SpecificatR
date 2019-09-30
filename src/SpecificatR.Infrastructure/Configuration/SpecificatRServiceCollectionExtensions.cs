@@ -4,7 +4,7 @@
 // </copyright>
 // <licensed>Distributed under Apache-2.0 license</licensed>
 // <author>David Vanderheyden</author>
-// <date>25/05/2019 10:10:43</date>
+// <date>25/05/2019 10:10:44</date>
 //-----------------------------------------------------------------------
 
 namespace SpecificatR.Infrastructure.Configuration
@@ -27,8 +27,11 @@ namespace SpecificatR.Infrastructure.Configuration
         public static IServiceCollection AddSpecificatR<TDbContext>(this IServiceCollection services)
             where TDbContext : DbContext
         {
-            services.AddScoped(typeof(IReadRepository<,,>), typeof(ReadRepository<,,>));
-            services.AddScoped(typeof(IReadWriteRepository<,,>), typeof(ReadWriteRepository<,,>));
+            services.AddScoped(typeof(IReadCoreRepository<,>), typeof(ReadCoreRepository<,>));
+            services.AddScoped(typeof(IReadWriteCoreRepository<,>), typeof(ReadWriteCoreRepository<,>));
+
+            services.AddScoped(typeof(IReadBaseRepository<,,>), typeof(ReadBaseRepository<,,>));
+            services.AddScoped(typeof(IReadWriteBaseRepository<,,>), typeof(ReadWriteBaseRepository<,,>));
 
             return services;
         }

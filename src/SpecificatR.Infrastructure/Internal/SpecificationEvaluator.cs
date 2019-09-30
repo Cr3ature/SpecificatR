@@ -16,12 +16,11 @@ namespace SpecificatR.Infrastructure.Internal
     using System.Linq.Expressions;
 
     /// <summary>
-    /// Defines the <see cref="SpecificationEvaluator{ClassType, IdType}" />
+    /// Defines the <see cref="SpecificationEvaluator{ClassType}" />
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    /// <typeparam name="TIdentifier"></typeparam>
-    internal class SpecificationEvaluator<TEntity, TIdentifier>
-        where TEntity : class, IBaseEntity<TIdentifier>
+    internal class SpecificationEvaluator<TEntity>
+        where TEntity : class
     {
         /// <summary>
         /// The GetQuery

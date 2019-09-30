@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="IReadRepository.cs" company="David Vanderheyden">
+// <copyright file="IReadCoreRepository.cs" company="David Vanderheyden">
 //     Copyright (c) 2019 All Rights Reserved
 // </copyright>
 // <licensed>Distributed under Apache-2.0 license</licensed>
@@ -14,13 +14,12 @@ namespace SpecificatR.Infrastructure.Repositories
     using System.Threading.Tasks;
 
     /// <summary>
-    /// Defines the <see cref="IReadRepository{TEntity, TIdentifier, TDbContext}"/>
+    /// Defines the <see cref="IReadCoreRepository{TEntity, TDbContext}"/>
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    /// <typeparam name="TIdentifier"></typeparam>
     /// <typeparam name="TDbContext"></typeparam>
-    public interface IReadRepository<TEntity, TIdentifier, TDbContext>
-        where TEntity : class, IBaseEntity<TIdentifier>
+    public interface IReadCoreRepository<TEntity, TDbContext>
+        where TEntity : class
         where TDbContext : DbContext
     {
         /// <summary>
@@ -28,28 +27,36 @@ namespace SpecificatR.Infrastructure.Repositories
         /// </summary>
         /// <param name="asTracking"></param>
         /// <returns></returns>
-        Task<TEntity[]> GetAllAsync(bool asTracking = false);
+        Task<TEntity[]> GetAll(bool asTracking = false);
 
         /// <summary>
         /// Get all entities based on specification (Query object).
         /// </summary>
         /// <param name="specification"></param>
         /// <returns></returns>
-        Task<TEntity[]> GetAllAsync(ISpecification<TEntity> specification);
-
-        /// <summary>
-        /// Get entity with optional tracked by EF Core by Id. Default is set to AsNoTracking().
-        /// </summary>
-        /// <param name="id">        </param>
-        /// <param name="asTracking"></param>
-        /// <returns></returns>
-        Task<TEntity> GetByIdAsync(TIdentifier id, bool asTracking = false);
+        Task<TEntity[]> GetAll(ISpecification<TEntity> specification);
 
         /// <summary>
         /// Get entity based on specification (Query object).
         /// </summary>
         /// <param name="specification"></param>
         /// <returns></returns>
-        Task<TEntity> GetSingleWithSpecificationAsync(ISpecification<TEntity> specification);
+        Task<TEntity> GetSingleWithSpecification(ISpecification<TEntity> specification);
+
+        /// <summary>
+        /// Get all entities as readonly objects. Using SqlQuery with Query params.
+        /// </summary>
+        /// <param name="sqlQuery"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        Task<TEntity[]> GetBySqlQuery(string sqlQuery, params object[] parameters);
+
+        /// <summary>
+        /// Get single entity as readonly object. Using 
+        /// </summary>
+        /// <param name="sqlQuery"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        Task<TEntity> GetSingleBySqlQuery(string sqlQuery, params object[] parameters);
     }
 }

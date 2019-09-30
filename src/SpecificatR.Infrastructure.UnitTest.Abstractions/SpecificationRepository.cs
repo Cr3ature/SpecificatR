@@ -30,7 +30,7 @@ namespace SpecificatR.Infrastructure.UnitTest.Abstractions
         /// <returns>The <see cref="Task{TEntity[]}"/></returns>
         public async Task<TEntity[]> GetAllAsync(IQueryable<TEntity> queryable, ISpecification<TEntity> specification)
         {
-            var result = SpecificationResolver<TEntity, TIdentifier>.GetResultSet(inputQuery: queryable, specification: specification);
+            var result = SpecificationResolver<TEntity>.GetResultSet(inputQuery: queryable, specification: specification);
             return await Task.FromResult(result);
         }
 
@@ -42,7 +42,7 @@ namespace SpecificatR.Infrastructure.UnitTest.Abstractions
         /// <returns>The <see cref="Task{TEntity}"/></returns>
         public async Task<TEntity> GetSingleWithSpecificationAsync(IQueryable<TEntity> queryable, ISpecification<TEntity> specification)
         {
-            var result = SpecificationResolver<TEntity, TIdentifier>.GetSingleResultAsync(inputQuery: queryable, specification: specification);
+            var result = SpecificationResolver<TEntity>.GetSingleResultAsync(inputQuery: queryable, specification: specification);
             return await Task.FromResult(result);
         }
     }
