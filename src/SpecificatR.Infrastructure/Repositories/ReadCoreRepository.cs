@@ -26,11 +26,41 @@ namespace SpecificatR.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<TEntity[]> GetBySqlQuery(string sqlQuery, params object[] parameters)
+        /// <summary>
+        /// Get all from DbSet using FromSql
+        /// </summary>
+        /// <param name="sqlQuery"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public async Task<TEntity[]> GetByQueryFromDbSet(string sqlQuery, params object[] parameters)
             => await _context.Set<TEntity>().FromSql(sqlQuery, parameters).ToArrayAsync();
 
-        public async Task<TEntity> GetSingleBySqlQuery(string sqlQuery, params object[] parameters)
+        /// <summary>
+        /// Get single or default from DbSet using FromSql
+        /// </summary>
+        /// <param name="sqlQuery"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public async Task<TEntity> GetSingleByQueryFromDbSet(string sqlQuery, params object[] parameters)
             => await _context.Set<TEntity>().FromSql(sqlQuery, parameters).SingleOrDefaultAsync();
+
+        /// <summary>
+        /// Get all from Query set using FromSql
+        /// </summary>
+        /// <param name="sqlQuery"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public async Task<TEntity[]> GetByQueryFromQuerySet(string sqlQuery, params object[] parameters)
+            => await _context.Query<TEntity>().FromSql(sqlQuery, parameters).ToArrayAsync();
+
+        /// <summary>
+        /// Get single or default from Query set using FromSql
+        /// </summary>
+        /// <param name="sqlQuery"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        public async Task<TEntity> GetSingleByQueryFromQuerySet(string sqlQuery, params object[] parameters)
+            => await _context.Query<TEntity>().FromSql(sqlQuery, parameters).SingleOrDefaultAsync();
 
         /// <summary>
         /// The GetAllAsync

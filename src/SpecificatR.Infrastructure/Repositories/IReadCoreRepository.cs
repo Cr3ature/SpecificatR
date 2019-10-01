@@ -49,14 +49,30 @@ namespace SpecificatR.Infrastructure.Repositories
         /// <param name="sqlQuery"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        Task<TEntity[]> GetBySqlQuery(string sqlQuery, params object[] parameters);
+        Task<TEntity[]> GetByQueryFromDbSet(string sqlQuery, params object[] parameters);
 
         /// <summary>
-        /// Get single entity as readonly object. Using 
+        /// Get single entity as readonly object. Using SqlQuery with Query params.
         /// </summary>
         /// <param name="sqlQuery"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        Task<TEntity> GetSingleBySqlQuery(string sqlQuery, params object[] parameters);
+        Task<TEntity> GetSingleByQueryFromDbSet(string sqlQuery, params object[] parameters);
+
+        /// <summary>
+        /// Get all entities as readonly objects. Using SqlQuery with Query params.
+        /// </summary>
+        /// <param name="sqlQuery"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        Task<TEntity[]> GetByQueryFromQuerySet(string sqlQuery, params object[] parameters);
+
+        /// <summary>
+        /// Get single entity as readonly object. Using SqlQuery with Query params.
+        /// </summary>
+        /// <param name="sqlQuery"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        Task<TEntity> GetSingleByQueryFromQuerySet(string sqlQuery, params object[] parameters);
     }
 }
