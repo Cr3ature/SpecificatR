@@ -44,6 +44,11 @@ namespace SpecificatR.Infrastructure.Abstractions
         public bool AsTracking { get; private set; } = false;
 
         /// <summary>
+        /// Gets a value indicating whether to only return different values
+        /// </summary>
+        public bool AsDistinct { get; private set; } = false;
+
+        /// <summary>
         /// Gets the Criteria
         /// </summary>
         public Expression<Func<TEntity, bool>> Criteria { get; }
@@ -83,9 +88,7 @@ namespace SpecificatR.Infrastructure.Abstractions
         /// <para>If entities are set with additional QueryFilters (<see cref="https://docs.microsoft.com/en-us/ef/core/querying/filters"/>), <c>IgnoreQueryFilters</c> can be used to ignore these set QueryFilters</para>
         /// </summary>
         protected virtual void AddIgnoreQueryFilters()
-        {
-            IgnoreQueryFilters = true;
-        }
+            => IgnoreQueryFilters = true;
 
         /// <summary>
         /// To add Specific related entities to include in the query results.
@@ -93,9 +96,7 @@ namespace SpecificatR.Infrastructure.Abstractions
         /// </summary>
         /// <param name="includeExpression"></param>
         protected virtual void AddInclude(Expression<Func<TEntity, object>> includeExpression)
-        {
-            _includes.Add(includeExpression);
-        }
+            => _includes.Add(includeExpression);
 
         /// <summary>
         /// Adding ordering to the query. First orderby is the first to be handled. Every additional <c>AddOrderBy()</c> will be executed in same order.
@@ -104,9 +105,7 @@ namespace SpecificatR.Infrastructure.Abstractions
         /// <param name="orderByExpression"></param>
         /// <param name="orderByDirection"></param>
         protected virtual void AddOrderBy(Expression<Func<TEntity, object>> orderByExpression, OrderByDirection orderByDirection)
-        {
-            _orderByExpressions.Add(new OrderByExpression<TEntity>(orderByExpression, orderByDirection));
-        }
+            => _orderByExpressions.Add(new OrderByExpression<TEntity>(orderByExpression, orderByDirection));
 
         /// <summary>
         /// Apply Paging to the query.
@@ -125,8 +124,12 @@ namespace SpecificatR.Infrastructure.Abstractions
         /// Set retrieved query as tracking in EF Core. By default queries will not be tracked with specifications (AsNoTracking).
         /// </summary>
         protected virtual void ApplyTracking()
-        {
-            AsTracking = true;
-        }
+            => AsTracking = true;
+
+        /// <summary>
+        /// Set query as distinct in EF Core. By default queries will not be distinct with specifications (AsDistinct).
+        /// </summary>
+        protected virtual void ApplyDistinct()
+            => AsDistinct = true;
     }
 }

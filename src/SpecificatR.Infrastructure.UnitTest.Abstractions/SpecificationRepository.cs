@@ -28,7 +28,7 @@ namespace SpecificatR.Infrastructure.UnitTest.Abstractions
         /// <param name="queryable">    The queryable <see cref="IQueryable{TEntity}"/></param>
         /// <param name="specification">The specification <see cref="ISpecification{TEntity}"/></param>
         /// <returns>The <see cref="Task{TEntity[]}"/></returns>
-        public async Task<TEntity[]> GetAllAsync(IQueryable<TEntity> queryable, ISpecification<TEntity> specification)
+        public async Task<TEntity[]> GetAll(IQueryable<TEntity> queryable, ISpecification<TEntity> specification)
         {
             var result = SpecificationResolver<TEntity>.GetResultSet(inputQuery: queryable, specification: specification);
             return await Task.FromResult(result);
@@ -40,9 +40,9 @@ namespace SpecificatR.Infrastructure.UnitTest.Abstractions
         /// <param name="queryable">    The queryable <see cref="IQueryable{TEntity}"/></param>
         /// <param name="specification">The specification <see cref="ISpecification{TEntity}"/></param>
         /// <returns>The <see cref="Task{TEntity}"/></returns>
-        public async Task<TEntity> GetSingleWithSpecificationAsync(IQueryable<TEntity> queryable, ISpecification<TEntity> specification)
+        public async Task<TEntity> GetSingleWithSpecification(IQueryable<TEntity> queryable, ISpecification<TEntity> specification)
         {
-            var result = SpecificationResolver<TEntity>.GetSingleResultAsync(inputQuery: queryable, specification: specification);
+            var result = SpecificationResolver<TEntity>.GetSingleResult(inputQuery: queryable, specification: specification);
             return await Task.FromResult(result);
         }
     }

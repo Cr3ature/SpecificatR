@@ -38,6 +38,18 @@ namespace SpecificatR.Infrastructure.Tests.Specifications
     }
 
     /// <summary>
+    /// Defines the <see cref="TestEntityDistinctSpecification"/>
+    /// </summary>
+    public class TestEntityDistinctSpecification : BaseSpecification<TestEntity>
+    {
+        public TestEntityDistinctSpecification()
+            : base(null)
+        {
+            ApplyDistinct();
+        }
+    }
+
+    /// <summary>
     /// Defines the <see cref="TestEntityOrderByNameAscSpecification"/>
     /// </summary>
     public class TestEntityOrderByNameAscSpecification : BaseSpecification<TestEntity>

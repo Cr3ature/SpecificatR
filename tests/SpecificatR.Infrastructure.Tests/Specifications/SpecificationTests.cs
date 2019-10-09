@@ -56,12 +56,30 @@ namespace SpecificatR.Infrastructure.Tests
             var mockUnitTestSpecification = new SpecificationRepository<TestEntity, Guid>();
 
             // Act
-            TestEntity[] result = await mockUnitTestSpecification.GetAllAsync(entities.AsQueryable(), new TestEntityPaginatedSpecification(1, 2));
+            TestEntity[] result = await mockUnitTestSpecification.GetAll(entities.AsQueryable(), new TestEntityPaginatedSpecification(1, 2));
 
             // Assert
             result.Should().HaveCount(2);
             result[0].Id.Should().Equals(entities[0]);
             result[1].Id.Should().Equals(entities[1]);
+        }
+
+        [Fact]
+        public async Task Should_SetDistinct()
+        {
+            // Arrange
+            IEnumerable<TestEntity> entities = _fixture.CreateMany<TestEntity>(4);
+            List<TestEntity> groupedEntities = new List<TestEntity>();
+            groupedEntities.AddRange(entities.ToList());
+            groupedEntities.AddRange(entities.ToList());
+
+            var mockUnitTestSpecification = new SpecificationRepository<TestEntity, Guid>();
+
+            // Act
+            TestEntity[] result = await mockUnitTestSpecification.GetAll(entities.AsQueryable(), new TestEntityDistinctSpecification());
+
+            // Assert
+            result.Should().HaveCount(4);
         }
 
         [Fact]
@@ -73,7 +91,7 @@ namespace SpecificatR.Infrastructure.Tests
             var mockUnitTestSpecification = new SpecificationRepository<TestEntity, Guid>();
 
             // Act
-            TestEntity[] result = await mockUnitTestSpecification.GetAllAsync(entities.AsQueryable(), new TestEntityOrderByNameAscSpecification());
+            TestEntity[] result = await mockUnitTestSpecification.GetAll(entities.AsQueryable(), new TestEntityOrderByNameAscSpecification());
             TestEntity[] orderedList = entities.OrderBy(o => o.Name).ToArray();
 
             // Assert
@@ -89,7 +107,7 @@ namespace SpecificatR.Infrastructure.Tests
             var mockUnitTestSpecification = new SpecificationRepository<TestEntity, Guid>();
 
             // Act
-            TestEntity[] result = await mockUnitTestSpecification.GetAllAsync(entities.AsQueryable(), new TestEntityOrderByNameDescSpecification());
+            TestEntity[] result = await mockUnitTestSpecification.GetAll(entities.AsQueryable(), new TestEntityOrderByNameDescSpecification());
             TestEntity[] orderedList = entities.OrderByDescending(o => o.Name).ToArray();
 
             // Assert
@@ -109,7 +127,7 @@ namespace SpecificatR.Infrastructure.Tests
             var mockUnitTestSpecification = new SpecificationRepository<TestEntity, Guid>();
 
             // Act
-            TestEntity[] result = await mockUnitTestSpecification.GetAllAsync(entities.AsQueryable(), new TestEntityByIdSpecification(entities[0].Id));
+            TestEntity[] result = await mockUnitTestSpecification.GetAll(entities.AsQueryable(), new TestEntityByIdSpecification(entities[0].Id));
 
             // Assert
             result.Should().NotBeNull().And.BeEquivalentTo(entities[0]);
@@ -144,7 +162,7 @@ namespace SpecificatR.Infrastructure.Tests
             var mockUnitTestSpecification = new SpecificationRepository<TestEntity, Guid>();
 
             // Act
-            TestEntity[] testEntityResults = await mockUnitTestSpecification.GetAllAsync(testEntities.AsQueryable(), new TestEntityWithChildEntitiesSpecification());
+            TestEntity[] testEntityResults = await mockUnitTestSpecification.GetAll(testEntities.AsQueryable(), new TestEntityWithChildEntitiesSpecification());
 
             // Assert
             testEntityResults.Should().NotBeNull().And.HaveSameCount(testEntitiesWithChild);

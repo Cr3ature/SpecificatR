@@ -94,7 +94,7 @@ namespace SpecificatR.Infrastructure.Repositories
         /// <returns>The <see cref="Task{TEntity}"/></returns>
         public async Task<TEntity> GetSingleWithSpecification(ISpecification<TEntity> specification)
         {
-            return await Task.FromResult(SpecificationResolver<TEntity>.GetSingleResultAsync(_context.Set<TEntity>().AsQueryable(), specification));
+            return await Task.FromResult(SpecificationResolver<TEntity>.GetSingleResult(_context.Set<TEntity>().AsQueryable(), specification));
         }
     }
 }
