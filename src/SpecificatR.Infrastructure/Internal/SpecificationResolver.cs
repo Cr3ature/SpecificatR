@@ -38,7 +38,7 @@ namespace SpecificatR.Infrastructure.Internal
         /// <param name="inputQuery">The inputQuery<see cref="IQueryable{TEntity}"/></param>
         /// <param name="specification">The specification<see cref="ISpecification{TEntity}"/></param>
         /// <returns>The <see cref="TEntity"/></returns>
-        public static TEntity GetSingleResultAsync(IQueryable<TEntity> inputQuery, ISpecification<TEntity> specification)
+        public static TEntity GetSingleResult(IQueryable<TEntity> inputQuery, ISpecification<TEntity> specification)
         {
             var result = ApplySpecification(inputQuery: inputQuery, specification: specification).FirstOrDefault();
             return result;

@@ -171,9 +171,7 @@ namespace SpecificatR.Infrastructure.Internal
         private static IQueryable<TEntity> SetPaging(IQueryable<TEntity> outputQuery, ISpecification<TEntity> specification)
         {
             if (!specification.IsPagingEnabled)
-            {
                 return outputQuery;
-            }
 
             return outputQuery.Skip(specification.Skip).Take(specification.Take);
         }
@@ -187,11 +185,17 @@ namespace SpecificatR.Infrastructure.Internal
         private static IQueryable<TEntity> SetTracking(IQueryable<TEntity> outputQuery, ISpecification<TEntity> specification)
         {
             if (specification.AsTracking)
-            {
                 return outputQuery;
-            }
 
             return outputQuery.AsNoTracking();
+        }
+
+        private static IQueryable<TEntity> SetDistinct(IQueryable<TEntity> outputQuery, ISpecification<TEntity> specification)
+        {
+            if (specification.AsDistinct)
+                return outputQuery;
+
+            return outputQuery.Distinct();
         }
     }
 }

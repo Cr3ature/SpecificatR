@@ -25,6 +25,11 @@ namespace SpecificatR.Infrastructure.Abstractions
         bool AsTracking { get; }
 
         /// <summary>
+        /// Gets a value indicating whether to only return different values
+        /// </summary>
+        bool AsDistinct { get; }
+
+        /// <summary>
         /// Gets the Criteria
         /// </summary>
         Expression<Func<ClassType, bool>> Criteria { get; }
