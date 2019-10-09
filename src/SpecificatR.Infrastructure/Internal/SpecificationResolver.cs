@@ -1,4 +1,4 @@
-﻿//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
 // <copyright file="ApplySpecification.cs" company="David Vanderheyden">
 //     Copyright (c) 2019 All Rights Reserved
 // </copyright>
@@ -9,50 +9,42 @@
 
 namespace SpecificatR.Infrastructure.Internal
 {
-    using SpecificatR.Infrastructure.Abstractions;
     using System.Linq;
     using System.Threading.Tasks;
+    using SpecificatR.Infrastructure.Abstractions;
 
     /// <summary>
-    /// Defines the <see cref="ApplySpecification"/>
+    /// Defines the <see cref="ApplySpecification"/>.
     /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
+    /// <typeparam name="TEntity">Type Entity.</typeparam>
     internal class SpecificationResolver<TEntity>
          where TEntity : class
     {
         /// <summary>
-        /// The GetResultSetAsync
+        /// The GetResultSetAsync.
         /// </summary>
-        /// <param name="inputQuery">   The inputQuery <see cref="IQueryable{TEntity}"/></param>
-        /// <param name="specification">The specification <see cref="ISpecification{TEntity}"/></param>
-        /// <returns>The <see cref="Task{TEntity[]}"/></returns>
+        /// <param name="inputQuery">   The inputQuery <see cref="IQueryable{TEntity}"/>.</param>
+        /// <param name="specification">The specification <see cref="ISpecification{TEntity}"/>.</param>
+        /// <returns>The <see cref="Task{TEntity[]}"/>.</returns>
         public static TEntity[] GetResultSet(IQueryable<TEntity> inputQuery, ISpecification<TEntity> specification)
-        {
-            var result = ApplySpecification(inputQuery: inputQuery, specification: specification).ToArray();
-            return result;
-        }
+            => ApplySpecification(inputQuery: inputQuery, specification: specification).ToArray();
 
         /// <summary>
-        /// The GetSingleResultAsync
+        /// The GetSingleResultAsync.
         /// </summary>
-        /// <param name="inputQuery">The inputQuery<see cref="IQueryable{TEntity}"/></param>
-        /// <param name="specification">The specification<see cref="ISpecification{TEntity}"/></param>
-        /// <returns>The <see cref="TEntity"/></returns>
+        /// <param name="inputQuery">The inputQuery<see cref="IQueryable{TEntity}"/>.</param>
+        /// <param name="specification">The specification<see cref="ISpecification{TEntity}"/>.</param>
+        /// <returns>The <see cref="TEntity"/>.</returns>
         public static TEntity GetSingleResult(IQueryable<TEntity> inputQuery, ISpecification<TEntity> specification)
-        {
-            var result = ApplySpecification(inputQuery: inputQuery, specification: specification).FirstOrDefault();
-            return result;
-        }
+            => ApplySpecification(inputQuery: inputQuery, specification: specification).FirstOrDefault();
 
         /// <summary>
-        /// The ApplySpecification
+        /// The ApplySpecification.
         /// </summary>
-        /// <param name="inputQuery">   The inputQuery <see cref="IQueryable{TEntity}"/></param>
-        /// <param name="specification">The specification <see cref="ISpecification{TEntity}"/></param>
-        /// <returns>The <see cref="IQueryable{TEntity}"/></returns>
+        /// <param name="inputQuery">   The inputQuery <see cref="IQueryable{TEntity}"/>.</param>
+        /// <param name="specification">The specification <see cref="ISpecification{TEntity}"/>.</param>
+        /// <returns>The <see cref="IQueryable{TEntity}"/>.</returns>
         protected static IQueryable<TEntity> ApplySpecification(IQueryable<TEntity> inputQuery, ISpecification<TEntity> specification)
-        {
-            return SpecificationEvaluator<TEntity>.GetQuery(inputQuery: inputQuery, specification: specification);
-        }
+            => SpecificationEvaluator<TEntity>.GetQuery(inputQuery: inputQuery, specification: specification);
     }
 }

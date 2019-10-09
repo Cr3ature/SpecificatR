@@ -9,6 +9,9 @@
 
 namespace SpecificatR.Infrastructure.Tests.Repositories
 {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
     using AutoFixture;
     using EntityFrameworkCoreMock;
     using FluentAssertions;
@@ -16,23 +19,20 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
     using Moq;
     using SpecificatR.Infrastructure.Abstractions;
     using SpecificatR.Infrastructure.Repositories;
-    using System;
-    using System.Linq;
-    using System.Threading.Tasks;
     using Xunit;
 
     /// <summary>
-    /// Defines the <see cref="ReadBaseRepositoryTests" />
+    /// Defines the <see cref="ReadBaseRepositoryTests" />.
     /// </summary>
     public class ReadBaseRepositoryTests
     {
         /// <summary>
-        /// Defines the _fixture
+        /// Defines the _fixture.
         /// </summary>
         private readonly IFixture _fixture = new Fixture();
 
         /// <summary>
-        /// Defines the _options
+        /// Defines the _options.
         /// </summary>
         private readonly DbContextOptions<TestDbContext> _options = new DbContextOptions<TestDbContext>();
 
@@ -45,9 +45,9 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
         }
 
         /// <summary>
-        /// The GetByIdAsync_ShouldReturnEntity
+        /// The GetByIdAsync_ShouldReturnEntity.
         /// </summary>
-        /// <returns>The <see cref="Task"/></returns>
+        /// <returns>The <see cref="Task"/>.</returns>
         [Fact]
         public async Task GetByIdAsync_ShouldReturnEntity()
         {
@@ -55,7 +55,7 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             TestEntity[] entities = _fixture.CreateMany<TestEntity>(2).ToArray();
 
             var dbContextMock = new DbContextMock<TestDbContext>(_options);
-            dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => (x.Id), entities);
+            dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => x.Id, entities);
 
             var repository = new ReadBaseRepository<TestEntity, Guid, TestDbContext>(dbContextMock.Object);
 
@@ -68,9 +68,9 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
         }
 
         /// <summary>
-        /// The GetByIdAsync_UnknownId_ShouldReturnNull
+        /// The GetByIdAsync_UnknownId_ShouldReturnNull.
         /// </summary>
-        /// <returns>The <see cref="Task"/></returns>
+        /// <returns>The <see cref="Task"/>.</returns>
         [Fact]
         public async Task GetByIdAsync_UnknownId_ShouldReturnNull()
         {
@@ -78,7 +78,7 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             TestEntity[] entities = _fixture.CreateMany<TestEntity>(2).ToArray();
 
             var dbContextMock = new DbContextMock<TestDbContext>(_options);
-            dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => (x.Id), entities);
+            dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => x.Id, entities);
             var repository = new ReadBaseRepository<TestEntity, Guid, TestDbContext>(dbContextMock.Object);
 
             // Act
@@ -89,9 +89,9 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
         }
 
         /// <summary>
-        /// The GetByIdAsync_UnknownIdAndWithTracking_ShouldReturnNull
+        /// The GetByIdAsync_UnknownIdAndWithTracking_ShouldReturnNull.
         /// </summary>
-        /// <returns>The <see cref="Task"/></returns>
+        /// <returns>The <see cref="Task"/>.</returns>
         [Fact]
         public async Task GetByIdAsync_UnknownIdAndWithTracking_ShouldReturnNull()
         {
@@ -99,7 +99,7 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             TestEntity[] entities = _fixture.CreateMany<TestEntity>(2).ToArray();
 
             var dbContextMock = new DbContextMock<TestDbContext>(_options);
-            dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => (x.Id), entities);
+            dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => x.Id, entities);
             var repository = new ReadBaseRepository<TestEntity, Guid, TestDbContext>(dbContextMock.Object);
 
             // Act
@@ -110,9 +110,9 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
         }
 
         /// <summary>
-        /// The GetByIdAsync_WithTracking_ShouldReturnEntity
+        /// The GetByIdAsync_WithTracking_ShouldReturnEntity.
         /// </summary>
-        /// <returns>The <see cref="Task"/></returns>
+        /// <returns>The <see cref="Task"/>.</returns>
         [Fact]
         public async Task GetByIdAsync_WithTracking_ShouldReturnEntity()
         {
@@ -120,7 +120,7 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             TestEntity[] entities = _fixture.CreateMany<TestEntity>(2).ToArray();
 
             var dbContextMock = new DbContextMock<TestDbContext>(_options);
-            dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => (x.Id), entities);
+            dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => x.Id, entities);
 
             var repository = new ReadBaseRepository<TestEntity, Guid, TestDbContext>(dbContextMock.Object);
 
@@ -133,9 +133,9 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
         }
 
         /// <summary>
-        /// The GetByIdAsyncWithSpecification_ShouldApplySpecification
+        /// The GetByIdAsyncWithSpecification_ShouldApplySpecification.
         /// </summary>
-        /// <returns>The <see cref="Task"/></returns>
+        /// <returns>The <see cref="Task"/>.</returns>
         [Fact]
         public async Task GetByIdAsyncWithSpecification_ShouldApplySpecification()
         {
@@ -143,7 +143,7 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             TestEntity[] entities = _fixture.CreateMany<TestEntity>(2).ToArray();
 
             var dbContextMock = new DbContextMock<TestDbContext>(_options);
-            dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => (x.Id), entities);
+            dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => x.Id, entities);
             var repository = new ReadBaseRepository<TestEntity, Guid, TestDbContext>(dbContextMock.Object);
 
             var specification = new Mock<ISpecification<TestEntity>>();
@@ -157,9 +157,9 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
         }
 
         /// <summary>
-        /// The ListAllAsync_ShouldReturnEntities
+        /// The ListAllAsync_ShouldReturnEntities.
         /// </summary>
-        /// <returns>The <see cref="Task"/></returns>
+        /// <returns>The <see cref="Task"/>.</returns>
         [Fact]
         public async Task ListAllAsync_ShouldReturnEntities()
         {
@@ -167,7 +167,7 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             TestEntity[] entities = _fixture.CreateMany<TestEntity>(2).ToArray();
 
             var dbContextMock = new DbContextMock<TestDbContext>(_options);
-            dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => (x.Id), entities);
+            dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => x.Id, entities);
             var repository = new ReadBaseRepository<TestEntity, Guid, TestDbContext>(dbContextMock.Object);
 
             // Act
@@ -179,9 +179,9 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
         }
 
         /// <summary>
-        /// The ListAllAsync_WithTracking_ShouldReturnEntities
+        /// The ListAllAsync_WithTracking_ShouldReturnEntities.
         /// </summary>
-        /// <returns>The <see cref="Task"/></returns>
+        /// <returns>The <see cref="Task"/>.</returns>
         [Fact]
         public async Task ListAllAsync_WithTracking_ShouldReturnEntities()
         {
@@ -189,7 +189,7 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             TestEntity[] entities = _fixture.CreateMany<TestEntity>(2).ToArray();
 
             var dbContextMock = new DbContextMock<TestDbContext>(_options);
-            dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => (x.Id), entities);
+            dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => x.Id, entities);
             var repository = new ReadBaseRepository<TestEntity, Guid, TestDbContext>(dbContextMock.Object);
 
             // Act
@@ -201,9 +201,9 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
         }
 
         /// <summary>
-        /// The ListAllAsyncWithSpecification_ShouldApplySpecification
+        /// The ListAllAsyncWithSpecification_ShouldApplySpecification.
         /// </summary>
-        /// <returns>The <see cref="Task"/></returns>
+        /// <returns>The <see cref="Task"/>.</returns>
         [Fact]
         public async Task ListAllAsyncWithSpecification_ShouldApplySpecification()
         {
@@ -211,7 +211,7 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             TestEntity[] entities = _fixture.CreateMany<TestEntity>(2).ToArray();
 
             var dbContextMock = new DbContextMock<TestDbContext>(_options);
-            dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => (x.Id), entities);
+            dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => x.Id, entities);
             var repository = new ReadBaseRepository<TestEntity, Guid, TestDbContext>(dbContextMock.Object);
 
             var specification = new Mock<ISpecification<TestEntity>>();

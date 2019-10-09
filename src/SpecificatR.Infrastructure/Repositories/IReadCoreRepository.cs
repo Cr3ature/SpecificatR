@@ -1,4 +1,4 @@
-﻿//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
 // <copyright file="IReadCoreRepository.cs" company="David Vanderheyden">
 //     Copyright (c) 2019 All Rights Reserved
 // </copyright>
@@ -9,15 +9,15 @@
 
 namespace SpecificatR.Infrastructure.Repositories
 {
+    using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
     using SpecificatR.Infrastructure.Abstractions;
-    using System.Threading.Tasks;
 
     /// <summary>
-    /// Defines the <see cref="IReadCoreRepository{TEntity, TDbContext}"/>
+    /// Defines the <see cref="IReadCoreRepository{TEntity, TDbContext}"/>.
     /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
-    /// <typeparam name="TDbContext"></typeparam>
+    /// <typeparam name="TEntity">The <see cref="TEntity"/>.</typeparam>
+    /// <typeparam name="TDbContext">The <see cref="TDbContext"/>.</typeparam>
     public interface IReadCoreRepository<TEntity, TDbContext>
         where TEntity : class
         where TDbContext : DbContext
@@ -25,54 +25,54 @@ namespace SpecificatR.Infrastructure.Repositories
         /// <summary>
         /// Get all entities with optional tracked by EF Core. Default is set to AsNoTracking().
         /// </summary>
-        /// <param name="asTracking"></param>
-        /// <returns></returns>
+        /// <param name="asTracking">As tracking parameter.</param>
+        /// <returns>The <see cref="TEntity[]"/>.</returns>
         Task<TEntity[]> GetAll(bool asTracking = false);
 
         /// <summary>
         /// Get all entities based on specification (Query object).
         /// </summary>
-        /// <param name="specification"></param>
-        /// <returns></returns>
+        /// <param name="specification">The <see cref="specification"/>.</param>
+        /// <returns>The <see cref="TEntity[]"/>.</returns>
         Task<TEntity[]> GetAll(ISpecification<TEntity> specification);
 
         /// <summary>
         /// Get entity based on specification (Query object).
         /// </summary>
-        /// <param name="specification"></param>
-        /// <returns></returns>
+        /// <param name="specification">Specification parameter.</param>
+        /// <returns>The <see cref="TEntity"/>.</returns>
         Task<TEntity> GetSingleWithSpecification(ISpecification<TEntity> specification);
 
         /// <summary>
         /// Get all entities as readonly objects. Using SqlQuery with Query params.
         /// </summary>
-        /// <param name="sqlQuery"></param>
-        /// <param name="parameters"></param>
-        /// <returns></returns>
+        /// <param name="sqlQuery">Query string.</param>
+        /// <param name="parameters">Query parameters.</param>
+        /// <returns>The <see cref="TEntity[]"/>.</returns>
         Task<TEntity[]> GetByQueryFromDbSet(string sqlQuery, params object[] parameters);
 
         /// <summary>
         /// Get single entity as readonly object. Using SqlQuery with Query params.
         /// </summary>
-        /// <param name="sqlQuery"></param>
-        /// <param name="parameters"></param>
-        /// <returns></returns>
+        /// <param name="sqlQuery">Query string.</param>
+        /// <param name="parameters">Query parameters.</param>
+        /// <returns>The <see cref="TEntity"/>.</returns>
         Task<TEntity> GetSingleByQueryFromDbSet(string sqlQuery, params object[] parameters);
 
         /// <summary>
         /// Get all entities as readonly objects. Using SqlQuery with Query params.
         /// </summary>
-        /// <param name="sqlQuery"></param>
-        /// <param name="parameters"></param>
-        /// <returns></returns>
+        /// <param name="sqlQuery">Query string.</param>
+        /// <param name="parameters">Query parameters.</param>
+        /// <returns>The <see cref="TEntity[]"/>.</returns>
         Task<TEntity[]> GetByQueryFromQuerySet(string sqlQuery, params object[] parameters);
 
         /// <summary>
         /// Get single entity as readonly object. Using SqlQuery with Query params.
         /// </summary>
-        /// <param name="sqlQuery"></param>
-        /// <param name="parameters"></param>
-        /// <returns></returns>
+        /// <param name="sqlQuery">Query string.</param>
+        /// <param name="parameters">Query parameters.</param>
+        /// <returns>The <see cref="TEntity"/>.</returns>
         Task<TEntity> GetSingleByQueryFromQuerySet(string sqlQuery, params object[] parameters);
     }
 }

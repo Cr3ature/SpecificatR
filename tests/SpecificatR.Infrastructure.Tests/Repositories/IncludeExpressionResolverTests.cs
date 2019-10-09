@@ -9,19 +9,19 @@
 
 namespace SpecificatR.Infrastructure.Tests
 {
-    using FluentAssertions;
-    using SpecificatR.Infrastructure.Internal;
     using System.Collections.Generic;
     using System.Linq;
+    using FluentAssertions;
+    using SpecificatR.Infrastructure.Internal;
     using Xunit;
 
     /// <summary>
-    /// Defines the <see cref="IncludeExpressionResolverTests" />
+    /// Defines the <see cref="IncludeExpressionResolverTests" />.
     /// </summary>
     public class IncludeExpressionResolverTests
     {
         /// <summary>
-        /// The Resolve_DirectProperty_ShouldReturnNameOfProperty
+        /// The Resolve_DirectProperty_ShouldReturnNameOfProperty.
         /// </summary>
         [Fact]
         public void Resolve_DirectProperty_ShouldReturnNameOfProperty()
@@ -34,7 +34,7 @@ namespace SpecificatR.Infrastructure.Tests
         }
 
         /// <summary>
-        /// The Resolve_OneToMany_NestedNestedProperty_ShouldReturnDottedPathToNestedProperty
+        /// The Resolve_OneToMany_NestedNestedProperty_ShouldReturnDottedPathToNestedProperty.
         /// </summary>
         [Fact]
         public void Resolve_OneToMany_NestedNestedProperty_ShouldReturnDottedPathToNestedProperty()
@@ -47,7 +47,7 @@ namespace SpecificatR.Infrastructure.Tests
         }
 
         /// <summary>
-        /// The Resolve_OneToMany_NestedProperty_ShouldReturnDottedPathToNestedProperty
+        /// The Resolve_OneToMany_NestedProperty_ShouldReturnDottedPathToNestedProperty.
         /// </summary>
         [Fact]
         public void Resolve_OneToMany_NestedProperty_ShouldReturnDottedPathToNestedProperty()
@@ -60,7 +60,7 @@ namespace SpecificatR.Infrastructure.Tests
         }
 
         /// <summary>
-        /// The Resolve_OneToOne_NestedProperty_ShouldReturnDottedPathToNestedProperty
+        /// The Resolve_OneToOne_NestedProperty_ShouldReturnDottedPathToNestedProperty.
         /// </summary>
         [Fact]
         public void Resolve_OneToOne_NestedProperty_ShouldReturnDottedPathToNestedProperty()
@@ -73,49 +73,49 @@ namespace SpecificatR.Infrastructure.Tests
         }
 
         /// <summary>
-        /// Defines the <see cref="Entity" />
+        /// Defines the <see cref="Entity" />.
         /// </summary>
         private sealed class Entity
         {
             /// <summary>
-            /// Gets or sets the Name
+            /// Gets or sets the Name.
             /// </summary>
             public string Name { get; set; }
 
             /// <summary>
-            /// Gets or sets the NestedItem
+            /// Gets or sets the NestedItem.
             /// </summary>
             public NestedEntity NestedItem { get; set; }
 
             /// <summary>
-            /// Gets or sets the NestedItems
+            /// Gets or sets the NestedItems.
             /// </summary>
             public ICollection<NestedEntity> NestedItems { get; set; }
         }
 
         /// <summary>
-        /// Defines the <see cref="NestedEntity" />
+        /// Defines the <see cref="NestedEntity" />.
         /// </summary>
         private sealed class NestedEntity
         {
             /// <summary>
-            /// Gets or sets the NestedName
+            /// Gets or sets the NestedName.
             /// </summary>
             public string NestedName { get; set; }
 
             /// <summary>
-            /// Gets or sets the NestedNestedItems
+            /// Gets or sets the NestedNestedItems.
             /// </summary>
             public ICollection<NestedNestedEntity> NestedNestedItems { get; set; }
         }
 
         /// <summary>
-        /// Defines the <see cref="NestedNestedEntity" />
+        /// Defines the <see cref="NestedNestedEntity" />.
         /// </summary>
         private sealed class NestedNestedEntity
         {
             /// <summary>
-            /// Gets or sets the NestedNestedName
+            /// Gets or sets the NestedNestedName.
             /// </summary>
             public string NestedNestedName { get; set; }
         }

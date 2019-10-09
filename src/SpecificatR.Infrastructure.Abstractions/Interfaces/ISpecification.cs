@@ -1,4 +1,4 @@
-﻿//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
 // <copyright file="ISpecification.cs" company="David Vanderheyden">
 //     Copyright (c) 2019 All Rights Reserved
 // </copyright>
@@ -14,53 +14,53 @@ namespace SpecificatR.Infrastructure.Abstractions
     using System.Linq.Expressions;
 
     /// <summary>
-    /// Defines the <see cref="ISpecification{ClassType}" />
+    /// Defines the <see cref="ISpecification{ClassType}" />.
     /// </summary>
-    /// <typeparam name="ClassType"></typeparam>
-    public interface ISpecification<ClassType>
+    /// <typeparam name="TClass">The <see cref="TClass"/>.</typeparam>
+    public interface ISpecification<TClass>
     {
         /// <summary>
-        /// Gets a value indicating whether AsTracking
+        /// Gets a value indicating whether AsTracking.
         /// </summary>
         bool AsTracking { get; }
 
         /// <summary>
-        /// Gets a value indicating whether to only return different values
+        /// Gets a value indicating whether to only return different values.
         /// </summary>
         bool AsDistinct { get; }
 
         /// <summary>
-        /// Gets the Criteria
+        /// Gets the Criteria.
         /// </summary>
-        Expression<Func<ClassType, bool>> Criteria { get; }
+        Expression<Func<TClass, bool>> Criteria { get; }
 
         /// <summary>
-        /// Gets a value indicating whether IgnoreQueryFilters
+        /// Gets a value indicating whether IgnoreQueryFilters.
         /// </summary>
         bool IgnoreQueryFilters { get; }
 
         /// <summary>
-        /// Gets the Includes
+        /// Gets the Includes.
         /// </summary>
-        IReadOnlyCollection<Expression<Func<ClassType, object>>> Includes { get; }
+        IReadOnlyCollection<Expression<Func<TClass, object>>> Includes { get; }
 
         /// <summary>
-        /// Gets a value indicating whether IsPagingEnabled
+        /// Gets a value indicating whether IsPagingEnabled.
         /// </summary>
         bool IsPagingEnabled { get; }
 
         /// <summary>
-        /// Gets the OrderByExpressions
+        /// Gets the OrderByExpressions.
         /// </summary>
-        IReadOnlyCollection<OrderByExpression<ClassType>> OrderByExpressions { get; }
+        IReadOnlyCollection<OrderByExpression<TClass>> OrderByExpressions { get; }
 
         /// <summary>
-        /// Gets the Skip
+        /// Gets the Skip.
         /// </summary>
         int Skip { get; }
 
         /// <summary>
-        /// Gets the Take
+        /// Gets the Take.
         /// </summary>
         int Take { get; }
     }

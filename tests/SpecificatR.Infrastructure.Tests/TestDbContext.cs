@@ -9,10 +9,10 @@
 
 namespace SpecificatR.Infrastructure.Tests
 {
-    using Microsoft.EntityFrameworkCore;
-    using SpecificatR.Infrastructure.Abstractions;
     using System;
     using System.Collections.Generic;
+    using Microsoft.EntityFrameworkCore;
+    using SpecificatR.Infrastructure.Abstractions;
 
     public class TestDbContext : DbContext
     {
