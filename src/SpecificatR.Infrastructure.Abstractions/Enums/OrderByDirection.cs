@@ -1,4 +1,4 @@
-﻿//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
 // <copyright file="OrderByDirection.cs" company="David Vanderheyden">
 //     Copyright (c) 2019 All Rights Reserved
 // </copyright>
@@ -10,7 +10,7 @@
 namespace SpecificatR.Infrastructure.Abstractions
 {
     /// <summary>
-    /// Defines the OrderByDirection
+    /// Defines the OrderByDirection.
     /// </summary>
     public enum OrderByDirection
     {
@@ -22,6 +22,6 @@ namespace SpecificatR.Infrastructure.Abstractions
         /// <summary>
         /// Defines the Descending
         /// </summary>
-        Descending
+        Descending,
     }
 }

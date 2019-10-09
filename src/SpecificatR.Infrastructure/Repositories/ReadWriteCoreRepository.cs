@@ -1,4 +1,4 @@
-﻿//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
 // <copyright file="ReadWriteCoreRepository.cs" company="David Vanderheyden">
 //     Copyright (c) 2019 All Rights Reserved
 // </copyright>
@@ -9,38 +9,37 @@
 
 namespace SpecificatR.Infrastructure.Repositories
 {
-    using Microsoft.EntityFrameworkCore;
     using System;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
+    using Microsoft.EntityFrameworkCore;
 
     /// <summary>
-    /// Defines the <see cref="ReadWriteBaseRepository{TEntity, TIdentifier, TDbContext}" />
+    /// Defines the <see cref="ReadWriteCoreRepository{TEntity, TDbContext}" />.
     /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
-    /// <typeparam name="TIdentifier"></typeparam>
-    /// <typeparam name="TDbContext"></typeparam>
+    /// <typeparam name="TEntity">The <see cref="TEntity"/>.</typeparam>
+    /// <typeparam name="TDbContext">The <see cref="TDbContext"/>.</typeparam>
     internal class ReadWriteCoreRepository<TEntity, TDbContext> : ReadCoreRepository<TEntity, TDbContext>, IReadWriteCoreRepository<TEntity, TDbContext>
         where TEntity : class
         where TDbContext : DbContext
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadWriteBaseRepository{TEntity, TIdentifier, TDbContext}"/> class.
+        /// Initializes a new instance of the <see cref="ReadWriteCoreRepository{TEntity, TDbContext}"/> class.
         /// </summary>
-        /// <param name="context">The context<see cref="TDbContext"/></param>
+        /// <param name="context">The context<see cref="TDbContext"/>.</param>
         public ReadWriteCoreRepository(TDbContext context)
             : base(context)
         {
         }
 
         /// <summary>
-        /// The AddAsync
+        /// The AddAsync.
         /// </summary>
-        /// <param name="entity">The entity<see cref="TEntity"/></param>
-        /// <returns>The <see cref="Task{TEntity}"/></returns>
+        /// <param name="entity">The entity<see cref="TEntity"/>.</param>
+        /// <returns>The <see cref="Task{TEntity}"/>.</returns>
         public async Task<TEntity> Add(TEntity entity)
         {
-            _context.Set<TEntity>().Add(entity);
+            Context.Set<TEntity>().Add(entity);
 
             await CommitAsync();
 
@@ -48,42 +47,42 @@ namespace SpecificatR.Infrastructure.Repositories
         }
 
         /// <summary>
-        /// The DeleteAsync
+        /// The DeleteAsync.
         /// </summary>
-        /// <param name="entity">The entity<see cref="TEntity"/></param>
-        /// <returns>The <see cref="Task"/></returns>
+        /// <param name="entity">The entity<see cref="TEntity"/>.</param>
+        /// <returns>The <see cref="Task"/>.</returns>
         public Task Delete(TEntity entity)
         {
-            _context.Set<TEntity>().Remove(entity);
+            Context.Set<TEntity>().Remove(entity);
 
-            _context.SaveChanges();
+            Context.SaveChanges();
 
             return Task.CompletedTask;
         }
 
         /// <summary>
-        /// The UpdateAsync
+        /// The UpdateAsync.
         /// </summary>
-        /// <param name="entity">The entity<see cref="TEntity"/></param>
-        /// <returns>The <see cref="Task"/></returns>
+        /// <param name="entity">The entity<see cref="TEntity"/>.</param>
+        /// <returns>The <see cref="Task"/>.</returns>
         public Task Update(TEntity entity)
         {
-            _context.Update(entity);
+            Context.Update(entity);
 
-            _context.SaveChanges();
+            Context.SaveChanges();
 
             return Task.CompletedTask;
         }
 
         /// <summary>
-        /// The UpdateFieldsAsync
+        /// The UpdateFieldsAsync.
         /// </summary>
-        /// <param name="entity">The entity<see cref="TEntity"/></param>
-        /// <param name="properties">The properties<see cref="Expression{Func{TEntity, object}}[]"/></param>
-        /// <returns>The <see cref="Task"/></returns>
+        /// <param name="entity">The entity<see cref="TEntity"/>.</param>
+        /// <param name="properties">The properties<see cref="Expression{Func{TEntity, object}}[]"/>.</param>
+        /// <returns>The <see cref="Task"/>.</returns>
         public Task UpdateFields(TEntity entity, params Expression<Func<TEntity, object>>[] properties)
         {
-            _context.Attach(entity);
+            Context.Attach(entity);
 
             foreach (Expression<Func<TEntity, object>> property in properties)
             {
@@ -103,21 +102,21 @@ namespace SpecificatR.Infrastructure.Repositories
                     throw new NotSupportedException();
                 }
 
-                _context.Entry(entity).Property(propertyName).IsModified = true;
+                Context.Entry(entity).Property(propertyName).IsModified = true;
             }
 
-            _context.SaveChanges();
+            Context.SaveChanges();
 
             return Task.CompletedTask;
         }
 
         /// <summary>
-        /// The CommitAsync
+        /// The CommitAsync.
         /// </summary>
-        /// <returns>The <see cref="Task{int}"/></returns>
+        /// <returns>The <see cref="Task{int}"/>.</returns>
         internal async Task<int> CommitAsync()
         {
-            return await _context.SaveChangesAsync();
+            return await Context.SaveChangesAsync();
         }
     }
 }

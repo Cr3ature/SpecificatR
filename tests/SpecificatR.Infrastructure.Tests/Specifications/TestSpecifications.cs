@@ -1,4 +1,4 @@
-﻿//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
 // <copyright file="TestSpecifications.cs" company="David Vanderheyden">
 //     Copyright (c) 2019 All Rights Reserved
 // </copyright>
@@ -9,36 +9,39 @@
 
 namespace SpecificatR.Infrastructure.Tests.Specifications
 {
-    using SpecificatR.Infrastructure.Abstractions;
     using System;
     using System.Linq;
     using System.Linq.Expressions;
+    using SpecificatR.Infrastructure.Abstractions;
+
+#pragma warning disable SA1649 // File name should match first type name
 
     /// <summary>
-    /// Defines the <see cref="TestEntityByIdSpecification"/>
+    /// Defines the <see cref="TestEntityByIdSpecification"/>.
     /// </summary>
     public class TestEntityByIdSpecification : BaseSpecification<TestEntity>
+#pragma warning restore SA1649 // File name should match first type name
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TestEntityByIdSpecification"/> class.
         /// </summary>
-        /// <param name="id">The id <see cref="Guid"/></param>
+        /// <param name="id">The id <see cref="Guid"/>.</param>
         public TestEntityByIdSpecification(Guid id)
             : base(BuildCriteria(id))
         {
         }
 
         /// <summary>
-        /// The BuildCriteria
+        /// The BuildCriteria.
         /// </summary>
-        /// <param name="id">The id <see cref="Guid"/></param>
-        /// <returns>The <see cref="Expression{Func{TestEntity, bool}}"/></returns>
+        /// <param name="id">The id <see cref="Guid"/>.</param>
+        /// <returns>The <see cref="Expression{Func{TestEntity, bool}}"/>.</returns>
         private static Expression<Func<TestEntity, bool>> BuildCriteria(Guid id)
-            => (x => x.Id == id);
+            => x => x.Id == id;
     }
 
     /// <summary>
-    /// Defines the <see cref="TestEntityDistinctSpecification"/>
+    /// Defines the <see cref="TestEntityDistinctSpecification"/>.
     /// </summary>
     public class TestEntityDistinctSpecification : BaseSpecification<TestEntity>
     {
@@ -50,7 +53,7 @@ namespace SpecificatR.Infrastructure.Tests.Specifications
     }
 
     /// <summary>
-    /// Defines the <see cref="TestEntityOrderByNameAscSpecification"/>
+    /// Defines the <see cref="TestEntityOrderByNameAscSpecification"/>.
     /// </summary>
     public class TestEntityOrderByNameAscSpecification : BaseSpecification<TestEntity>
     {
@@ -65,7 +68,7 @@ namespace SpecificatR.Infrastructure.Tests.Specifications
     }
 
     /// <summary>
-    /// Defines the <see cref="TestEntityOrderByNameDescSpecification"/>
+    /// Defines the <see cref="TestEntityOrderByNameDescSpecification"/>.
     /// </summary>
     public class TestEntityOrderByNameDescSpecification : BaseSpecification<TestEntity>
     {
@@ -80,15 +83,15 @@ namespace SpecificatR.Infrastructure.Tests.Specifications
     }
 
     /// <summary>
-    /// Defines the <see cref="TestEntityPaginatedSpecification"/>
+    /// Defines the <see cref="TestEntityPaginatedSpecification"/>.
     /// </summary>
     public class TestEntityPaginatedSpecification : BaseSpecification<TestEntity>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TestEntityPaginatedSpecification"/> class.
         /// </summary>
-        /// <param name="pageIndex">The pageIndex <see cref="int"/></param>
-        /// <param name="pageSize"> The pageSize <see cref="int"/></param>
+        /// <param name="pageIndex">The pageIndex <see cref="int"/>.</param>
+        /// <param name="pageSize"> The pageSize <see cref="int"/>.</param>
         public TestEntityPaginatedSpecification(int pageIndex, int pageSize)
             : base(null)
         {
@@ -97,7 +100,7 @@ namespace SpecificatR.Infrastructure.Tests.Specifications
     }
 
     /// <summary>
-    /// Defines the <see cref="TestEntityWithChildEntitiesSpecification"/>
+    /// Defines the <see cref="TestEntityWithChildEntitiesSpecification"/>.
     /// </summary>
     public class TestEntityWithChildEntitiesSpecification : BaseSpecification<TestEntity>
     {
@@ -110,12 +113,10 @@ namespace SpecificatR.Infrastructure.Tests.Specifications
         }
 
         /// <summary>
-        /// The BuildCriteria
+        /// The BuildCriteria.
         /// </summary>
-        /// <returns>The <see cref="Expression{Func{TestEntity, bool}}"/></returns>
+        /// <returns>The <see cref="Expression{Func{TestEntity, bool}}"/>.</returns>
         private static Expression<Func<TestEntity, bool>> BuildCriteria()
-        {
-            return x => x.Children != null && x.Children.Any();
-        }
+            => x => x.Children != null && x.Children.Any();
     }
 }

@@ -1,4 +1,4 @@
-﻿//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
 // <copyright file="SpecificationTests.cs" company="David Vanderheyden">
 //     Copyright (c) 2019 All Rights Reserved
 // </copyright>
@@ -9,29 +9,29 @@
 
 namespace SpecificatR.Infrastructure.Tests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
     using AutoFixture;
     using FluentAssertions;
     using Microsoft.EntityFrameworkCore;
     using SpecificatR.Infrastructure.Tests.Specifications;
     using SpecificatR.Infrastructure.UnitTest.Abstractions;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     using Xunit;
 
     /// <summary>
-    /// Defines the <see cref="SpecificationTests"/>
+    /// Defines the <see cref="SpecificationTests"/>.
     /// </summary>
     public class SpecificationTests
     {
         /// <summary>
-        /// Defines the _fixture
+        /// Defines the _fixture.
         /// </summary>
         private readonly IFixture _fixture = new Fixture();
 
         /// <summary>
-        /// Defines the _options
+        /// Defines the _options.
         /// </summary>
         private readonly DbContextOptions<TestDbContext> _options = new DbContextOptions<TestDbContext>();
 
@@ -44,9 +44,9 @@ namespace SpecificatR.Infrastructure.Tests
         }
 
         /// <summary>
-        /// The Should_ApplyPaging
+        /// The Should_ApplyPaging.
         /// </summary>
-        /// <returns>The <see cref="Task"/></returns>
+        /// <returns>The <see cref="Task"/>.</returns>
         [Fact]
         public async Task Should_ApplyPaging()
         {
@@ -69,7 +69,7 @@ namespace SpecificatR.Infrastructure.Tests
         {
             // Arrange
             IEnumerable<TestEntity> entities = _fixture.CreateMany<TestEntity>(4);
-            List<TestEntity> groupedEntities = new List<TestEntity>();
+            var groupedEntities = new List<TestEntity>();
             groupedEntities.AddRange(entities.ToList());
             groupedEntities.AddRange(entities.ToList());
 
@@ -115,9 +115,9 @@ namespace SpecificatR.Infrastructure.Tests
         }
 
         /// <summary>
-        /// The Should_SetCriteria
+        /// The Should_SetCriteria.
         /// </summary>
-        /// <returns>The <see cref="Task"/></returns>
+        /// <returns>The <see cref="Task"/>.</returns>
         [Fact]
         public async Task Should_SetCriteria()
         {
@@ -134,24 +134,24 @@ namespace SpecificatR.Infrastructure.Tests
         }
 
         /// <summary>
-        /// The CharactersOfTypeHumanSpecification_ShouldApplySpecification
+        /// The CharactersOfTypeHumanSpecification_ShouldApplySpecification.
         /// </summary>
-        /// <returns>The <see cref="Task"/></returns>
+        /// <returns>The <see cref="Task"/>.</returns>
         [Fact]
         public async Task TestEntityWithChildEntitiesSpecification_ShouldApplySpecification()
         {
             // Arrange
             var parentGuid = Guid.NewGuid();
-            var childEntity = _fixture.Build<TestEntityChild>()
+            TestEntityChild childEntity = _fixture.Build<TestEntityChild>()
                 .Without(wh => wh.Parent)
                 .With(wh => wh.ParentId, parentGuid)
                 .Create();
-            var testEntitiesWithChild = _fixture.Build<TestEntity>()
+            IEnumerable<TestEntity> testEntitiesWithChild = _fixture.Build<TestEntity>()
                 .With(w => w.Id, parentGuid)
                 .With(w => w.Children, new List<TestEntityChild> { childEntity })
                 .CreateMany(3);
 
-            var testEntitiesWithoutChildren = _fixture.Build<TestEntity>()
+            IEnumerable<TestEntity> testEntitiesWithoutChildren = _fixture.Build<TestEntity>()
                 .Without(wh => wh.Children)
                 .CreateMany(5);
 
