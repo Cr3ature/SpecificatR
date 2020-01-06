@@ -1,10 +1,8 @@
 //-----------------------------------------------------------------------
-// <copyright file="ReadRepositoryTests.cs" company="David Vanderheyden">
-//     Copyright (c) 2019 All Rights Reserved
+// <copyright file="ReadRepositoryTests.cs">
+//     Copyright (c) 2019-2020 David Vanderheyden All Rights Reserved
 // </copyright>
 // <licensed>Distributed under Apache-2.0 license</licensed>
-// <author>David Vanderheyden</author>
-// <date>25/05/2019 10:10:48</date>
 //-----------------------------------------------------------------------
 
 namespace SpecificatR.Infrastructure.Tests.Repositories
@@ -13,16 +11,17 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
     using System.Linq;
     using System.Threading.Tasks;
     using AutoFixture;
-    using EntityFrameworkCoreMock;
+    using EntityFrameworkCore3Mock;
     using FluentAssertions;
     using Microsoft.EntityFrameworkCore;
     using Moq;
-    using SpecificatR.Infrastructure.Abstractions;
-    using SpecificatR.Infrastructure.Repositories;
+    using SpecificatR;
+    using SpecificatR.Abstractions;
+    using SpecificatR.Infrastructure.Tests.Specifications;
     using Xunit;
 
     /// <summary>
-    /// Defines the <see cref="ReadBaseRepositoryTests" />.
+    /// Defines the <see cref="ReadBaseRepositoryTests"/>.
     /// </summary>
     public class ReadBaseRepositoryTests
     {
@@ -128,8 +127,9 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             TestEntity result = await repository.GetById(entities[0].Id, true);
 
             // Assert
-            result.Should().NotBeNull();
-            result.Should().BeEquivalentTo(entities[0]);
+            result.Should()
+                .NotBeNull().And
+                .BeEquivalentTo(entities[0]);
         }
 
         /// <summary>
@@ -144,16 +144,19 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
 
             var dbContextMock = new DbContextMock<TestDbContext>(_options);
             dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => x.Id, entities);
+            dbContextMock.Setup(s => s.Set<TestEntity>().AsQueryable()).Returns(entities.AsQueryable());
             var repository = new ReadBaseRepository<TestEntity, Guid, TestDbContext>(dbContextMock.Object);
 
-            var specification = new Mock<ISpecification<TestEntity>>();
+            var specification = new TestEntityByIdSpecification(entities[0].Id);
 
             // Act
-            TestEntity result = await repository.GetSingleWithSpecification(specification.Object);
+            TestEntity result = await repository.GetFirstOrDefault(specification);
 
             // Assert
-            result.Should().NotBeNull();
-            result.Should().BeOfType(typeof(TestEntity));
+            result.Should()
+                .NotBeNull().And
+                .BeOfType(typeof(TestEntity)).And
+                .BeEquivalentTo(entities[0]);
         }
 
         /// <summary>
@@ -174,8 +177,9 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             TestEntity[] result = await repository.GetAll();
 
             // Assert
-            result.Should().NotBeNull();
-            result.Should().HaveCount(2);
+            result.Should()
+                .NotBeNull().And
+                .HaveCount(2);
         }
 
         /// <summary>
@@ -196,8 +200,9 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             TestEntity[] result = await repository.GetAll(true);
 
             // Assert
-            result.Should().NotBeNull();
-            result.Should().HaveCount(2);
+            result.Should()
+                .NotBeNull().And
+                .HaveCount(2);
         }
 
         /// <summary>
@@ -212,6 +217,7 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
 
             var dbContextMock = new DbContextMock<TestDbContext>(_options);
             dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => x.Id, entities);
+            dbContextMock.Setup(s => s.Set<TestEntity>().AsQueryable()).Returns(entities.AsQueryable());
             var repository = new ReadBaseRepository<TestEntity, Guid, TestDbContext>(dbContextMock.Object);
 
             var specification = new Mock<ISpecification<TestEntity>>();
@@ -220,8 +226,10 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             TestEntity[] result = await repository.GetAll(specification.Object);
 
             // Assert
-            result.Should().NotBeNull();
-            result.Should().BeOfType(typeof(TestEntity[]));
+            result.Should()
+                .NotBeEmpty().And
+                .BeOfType(typeof(TestEntity[])).And
+                .BeEquivalentTo(entities);
         }
     }
 }

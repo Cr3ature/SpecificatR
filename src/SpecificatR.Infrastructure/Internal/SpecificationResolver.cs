@@ -1,17 +1,15 @@
 //-----------------------------------------------------------------------
-// <copyright file="ApplySpecification.cs" company="David Vanderheyden">
-//     Copyright (c) 2019 All Rights Reserved
+// <copyright file="ApplySpecification.cs">>
+//     Copyright (c) 2019-2020 David Vanderheyden All Rights Reserved
 // </copyright>
 // <licensed>Distributed under Apache-2.0 license</licensed>
-// <author>David Vanderheyden</author>
-// <date>25/05/2019 18:51:47</date>
 //-----------------------------------------------------------------------
 
 namespace SpecificatR.Infrastructure.Internal
 {
     using System.Linq;
     using System.Threading.Tasks;
-    using SpecificatR.Infrastructure.Abstractions;
+    using SpecificatR.Abstractions;
 
     /// <summary>
     /// Defines the <see cref="ApplySpecification"/>.
@@ -26,16 +24,16 @@ namespace SpecificatR.Infrastructure.Internal
         /// <param name="inputQuery">   The inputQuery <see cref="IQueryable{TEntity}"/>.</param>
         /// <param name="specification">The specification <see cref="ISpecification{TEntity}"/>.</param>
         /// <returns>The <see cref="Task{TEntity[]}"/>.</returns>
-        public static TEntity[] GetResultSet(IQueryable<TEntity> inputQuery, ISpecification<TEntity> specification)
+        public static TEntity[] GetAllResult(IQueryable<TEntity> inputQuery, ISpecification<TEntity> specification)
             => ApplySpecification(inputQuery: inputQuery, specification: specification).ToArray();
 
         /// <summary>
         /// The GetSingleResultAsync.
         /// </summary>
-        /// <param name="inputQuery">The inputQuery<see cref="IQueryable{TEntity}"/>.</param>
-        /// <param name="specification">The specification<see cref="ISpecification{TEntity}"/>.</param>
+        /// <param name="inputQuery">   The inputQuery <see cref="IQueryable{TEntity}"/>.</param>
+        /// <param name="specification">The specification <see cref="ISpecification{TEntity}"/>.</param>
         /// <returns>The <see cref="TEntity"/>.</returns>
-        public static TEntity GetSingleResult(IQueryable<TEntity> inputQuery, ISpecification<TEntity> specification)
+        public static TEntity GetFirstOrDefaultResult(IQueryable<TEntity> inputQuery, ISpecification<TEntity> specification)
             => ApplySpecification(inputQuery: inputQuery, specification: specification).FirstOrDefault();
 
         /// <summary>

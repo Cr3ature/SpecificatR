@@ -7,16 +7,16 @@
 // <date>25/05/2019 10:10:44</date>
 //-----------------------------------------------------------------------
 
-namespace SpecificatR.Infrastructure.Repositories
+namespace SpecificatR
 {
     using System;
     using System.Linq.Expressions;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
-    using SpecificatR.Infrastructure.Abstractions;
+    using SpecificatR.Abstractions;
 
     /// <summary>
-    /// Defines the <see cref="ReadWriteBaseRepository{TEntity, TIdentifier, TDbContext}" />.
+    /// Defines the <see cref="ReadWriteBaseRepository{TEntity, TIdentifier, TDbContext}"/>.
     /// </summary>
     /// <typeparam name="TEntity">The <see cref="TEntity"/>.</typeparam>
     /// <typeparam name="TIdentifier">The <see cref="TIdentifier"/>.</typeparam>
@@ -26,9 +26,10 @@ namespace SpecificatR.Infrastructure.Repositories
         where TDbContext : DbContext
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadWriteBaseRepository{TEntity, TIdentifier, TDbContext}"/> class.
+        /// Initializes a new instance of the <see cref="ReadWriteBaseRepository{TEntity,
+        /// TIdentifier, TDbContext}"/> class.
         /// </summary>
-        /// <param name="context">The context<see cref="TDbContext"/>.</param>
+        /// <param name="context">The context <see cref="TDbContext"/>.</param>
         public ReadWriteBaseRepository(TDbContext context)
             : base(context)
         {
@@ -37,7 +38,7 @@ namespace SpecificatR.Infrastructure.Repositories
         /// <summary>
         /// The DeleteByIdAsync.
         /// </summary>
-        /// <param name="id">The id<see cref="TIdentifier"/>.</param>
+        /// <param name="id">The id <see cref="TIdentifier"/>.</param>
         /// <returns>The <see cref="Task"/>.</returns>
         public async Task DeleteById(TIdentifier id)
         {
@@ -54,7 +55,7 @@ namespace SpecificatR.Infrastructure.Repositories
         /// <summary>
         /// The AddAsync.
         /// </summary>
-        /// <param name="entity">The entity<see cref="TEntity"/>.</param>
+        /// <param name="entity">The entity <see cref="TEntity"/>.</param>
         /// <returns>The <see cref="Task{TEntity}"/>.</returns>
         public async Task<TEntity> Add(TEntity entity)
         {
@@ -68,7 +69,7 @@ namespace SpecificatR.Infrastructure.Repositories
         /// <summary>
         /// The DeleteAsync.
         /// </summary>
-        /// <param name="entity">The entity<see cref="TEntity"/>.</param>
+        /// <param name="entity">The entity <see cref="TEntity"/>.</param>
         /// <returns>The <see cref="Task"/>.</returns>
         public Task Delete(TEntity entity)
         {
@@ -82,7 +83,7 @@ namespace SpecificatR.Infrastructure.Repositories
         /// <summary>
         /// The UpdateAsync.
         /// </summary>
-        /// <param name="entity">The entity<see cref="TEntity"/>.</param>
+        /// <param name="entity">The entity <see cref="TEntity"/>.</param>
         /// <returns>The <see cref="Task"/>.</returns>
         public Task Update(TEntity entity)
         {
@@ -114,8 +115,8 @@ namespace SpecificatR.Infrastructure.Repositories
         /// <summary>
         /// The UpdateFieldsAsync.
         /// </summary>
-        /// <param name="entity">The entity<see cref="TEntity"/>.</param>
-        /// <param name="properties">The properties<see cref="Expression{Func{TEntity, object}}[]"/>.</param>
+        /// <param name="entity">    The entity <see cref="TEntity"/>.</param>
+        /// <param name="properties">The properties <see cref="Expression{Func{TEntity, object}}[]"/>.</param>
         /// <returns>The <see cref="Task"/>.</returns>
         public Task UpdateFields(TEntity entity, params Expression<Func<TEntity, object>>[] properties)
         {

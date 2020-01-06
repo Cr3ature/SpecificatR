@@ -1,10 +1,8 @@
 //-----------------------------------------------------------------------
-// <copyright file="TestSpecifications.cs" company="David Vanderheyden">
-//     Copyright (c) 2019 All Rights Reserved
+// <copyright file="TestSpecifications.cs">
+//     Copyright (c) 2019-2020 David Vanderheyden All Rights Reserved
 // </copyright>
 // <licensed>Distributed under Apache-2.0 license</licensed>
-// <author>David Vanderheyden</author>
-// <date>25/05/2019 17:46:12</date>
 //-----------------------------------------------------------------------
 
 namespace SpecificatR.Infrastructure.Tests.Specifications
@@ -12,7 +10,7 @@ namespace SpecificatR.Infrastructure.Tests.Specifications
     using System;
     using System.Linq;
     using System.Linq.Expressions;
-    using SpecificatR.Infrastructure.Abstractions;
+    using SpecificatR.Abstractions;
 
 #pragma warning disable SA1649 // File name should match first type name
 

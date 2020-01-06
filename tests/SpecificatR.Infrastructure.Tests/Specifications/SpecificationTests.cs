@@ -1,10 +1,8 @@
 //-----------------------------------------------------------------------
-// <copyright file="SpecificationTests.cs" company="David Vanderheyden">
-//     Copyright (c) 2019 All Rights Reserved
+// <copyright file="SpecificationTests.cs"
+//     Copyright (c) 2019-2020 David Vanderheyden All Rights Reserved
 // </copyright>
 // <licensed>Distributed under Apache-2.0 license</licensed>
-// <author>David Vanderheyden</author>
-// <date>25/05/2019 17:47:14</date>
 //-----------------------------------------------------------------------
 
 namespace SpecificatR.Infrastructure.Tests
@@ -15,9 +13,8 @@ namespace SpecificatR.Infrastructure.Tests
     using System.Threading.Tasks;
     using AutoFixture;
     using FluentAssertions;
-    using Microsoft.EntityFrameworkCore;
     using SpecificatR.Infrastructure.Tests.Specifications;
-    using SpecificatR.Infrastructure.UnitTest.Abstractions;
+    using SpecificatR.UnitTest.Abstractions;
     using Xunit;
 
     /// <summary>
@@ -29,11 +26,6 @@ namespace SpecificatR.Infrastructure.Tests
         /// Defines the _fixture.
         /// </summary>
         private readonly IFixture _fixture = new Fixture();
-
-        /// <summary>
-        /// Defines the _options.
-        /// </summary>
-        private readonly DbContextOptions<TestDbContext> _options = new DbContextOptions<TestDbContext>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SpecificationTests"/> class.
@@ -155,7 +147,7 @@ namespace SpecificatR.Infrastructure.Tests
                 .Without(wh => wh.Children)
                 .CreateMany(5);
 
-            List<TestEntity> testEntities = new List<TestEntity>();
+            var testEntities = new List<TestEntity>();
             testEntities.AddRange(testEntitiesWithoutChildren);
             testEntities.AddRange(testEntitiesWithChild);
 
