@@ -7,11 +7,11 @@
 // <date>25/05/2019 10:10:44</date>
 //-----------------------------------------------------------------------
 
-namespace SpecificatR.Infrastructure.Repositories
+namespace SpecificatR
 {
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
-    using SpecificatR.Infrastructure.Abstractions;
+    using SpecificatR.Abstractions;
 
     /// <summary>
     /// Defines the <see cref="ReadBaseRepository{TEntity, TIdentifier, TDbContext}"/>.

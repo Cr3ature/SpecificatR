@@ -1,10 +1,8 @@
 //-----------------------------------------------------------------------
-// <copyright file="ReadWriteRepositoryTests.cs" company="David Vanderheyden">
-//     Copyright (c) 2019 All Rights Reserved
+// <copyright file="ReadWriteRepositoryTests.cs">
+//     Copyright (c) 2019-2020 David Vanderheyden All Rights Reserved
 // </copyright>
 // <licensed>Distributed under Apache-2.0 license</licensed>
-// <author>David Vanderheyden</author>
-// <date>25/05/2019 10:10:48</date>
 //-----------------------------------------------------------------------
 
 namespace SpecificatR.Infrastructure.Tests.Repositories
@@ -13,14 +11,14 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
     using System.Linq;
     using System.Threading.Tasks;
     using AutoFixture;
-    using EntityFrameworkCoreMock;
+    using EntityFrameworkCore3Mock;
     using FluentAssertions;
     using Microsoft.EntityFrameworkCore;
-    using SpecificatR.Infrastructure.Repositories;
+    using SpecificatR;
     using Xunit;
 
     /// <summary>
-    /// Defines the <see cref="ReadWriteBaseRepositoryTests" />.
+    /// Defines the <see cref="ReadWriteBaseRepositoryTests"/>.
     /// </summary>
     public class ReadWriteBaseRepositoryTests
     {

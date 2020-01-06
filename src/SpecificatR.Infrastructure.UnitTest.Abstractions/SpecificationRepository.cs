@@ -7,11 +7,11 @@
 // <date>25/05/2019 19:12:09</date>
 //-----------------------------------------------------------------------
 
-namespace SpecificatR.Infrastructure.UnitTest.Abstractions
+namespace SpecificatR.UnitTest.Abstractions
 {
     using System.Linq;
     using System.Threading.Tasks;
-    using SpecificatR.Infrastructure.Abstractions;
+    using SpecificatR.Abstractions;
     using SpecificatR.Infrastructure.Internal;
 
     /// <summary>
@@ -30,7 +30,7 @@ namespace SpecificatR.Infrastructure.UnitTest.Abstractions
         /// <returns>The <see cref="Task{TEntity[]}"/>.</returns>
         public async Task<TEntity[]> GetAll(IQueryable<TEntity> queryable, ISpecification<TEntity> specification)
         {
-            var result = SpecificationResolver<TEntity>.GetResultSet(inputQuery: queryable, specification: specification);
+            TEntity[] result = SpecificationResolver<TEntity>.GetAllResult(inputQuery: queryable, specification: specification);
             return await Task.FromResult(result);
         }
 
@@ -40,9 +40,9 @@ namespace SpecificatR.Infrastructure.UnitTest.Abstractions
         /// <param name="queryable">    The queryable <see cref="IQueryable{TEntity}"/>.</param>
         /// <param name="specification">The specification <see cref="ISpecification{TEntity}"/>.</param>
         /// <returns>The <see cref="Task{TEntity}"/>.</returns>
-        public async Task<TEntity> GetSingleWithSpecification(IQueryable<TEntity> queryable, ISpecification<TEntity> specification)
+        public async Task<TEntity> GetFirstOrDefault(IQueryable<TEntity> queryable, ISpecification<TEntity> specification)
         {
-            var result = SpecificationResolver<TEntity>.GetSingleResult(inputQuery: queryable, specification: specification);
+            TEntity result = SpecificationResolver<TEntity>.GetFirstOrDefaultResult(inputQuery: queryable, specification: specification);
             return await Task.FromResult(result);
         }
     }

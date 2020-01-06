@@ -1,20 +1,18 @@
 //-----------------------------------------------------------------------
-// <copyright file="ISpecification.cs" company="David Vanderheyden">
-//     Copyright (c) 2019 All Rights Reserved
+// <copyright file="ISpecification.cs">
+//     Copyright (c) 2019-2020 David Vanderheyden All Rights Reserved
 // </copyright>
 // <licensed>Distributed under Apache-2.0 license</licensed>
-// <author>David Vanderheyden</author>
-// <date>25/05/2019 10:10:47</date>
 //-----------------------------------------------------------------------
 
-namespace SpecificatR.Infrastructure.Abstractions
+namespace SpecificatR.Abstractions
 {
     using System;
     using System.Collections.Generic;
     using System.Linq.Expressions;
 
     /// <summary>
-    /// Defines the <see cref="ISpecification{ClassType}" />.
+    /// Defines the <see cref="ISpecification{ClassType}"/>.
     /// </summary>
     /// <typeparam name="TClass">The <see cref="TClass"/>.</typeparam>
     public interface ISpecification<TClass>
@@ -28,6 +26,11 @@ namespace SpecificatR.Infrastructure.Abstractions
         /// Gets a value indicating whether to only return different values.
         /// </summary>
         bool AsDistinct { get; }
+
+        /// <summary>
+        /// Gets a comparer to set comparing rules to get a distinct result.
+        /// </summary>
+        IEqualityComparer<TClass> DistinctComparer { get; }
 
         /// <summary>
         /// Gets the Criteria.

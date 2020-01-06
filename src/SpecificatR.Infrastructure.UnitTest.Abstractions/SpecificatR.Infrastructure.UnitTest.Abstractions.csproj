@@ -1,16 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <LangVersion>Latest</LangVersion>
-    <CodeAnalysisRuleSet>..\..\ca.ruleset</CodeAnalysisRuleSet>
-    <RepositoryUrl>https://github.com/Cr3ature/SpecificatR</RepositoryUrl>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <Authors>David Vanderheyden</Authors>
-    <Product>SpecificatR.UnitTest.Abstractions</Product>
-    <PackageId>SpecificatR.UnitTest.Abstractions</PackageId>
-    <Description>SpecificatR UnitTest Abstractions contains all the essentials to unit test specifications created for use with SpecificatR</Description>
+    <CodeAnalysisRuleSet>..\..\ca.ruleset</CodeAnalysisRuleSet>
+    <Description>SpecificatR UnitTest Abstractions contains all the essentials to unit test specifications created with SpecificatR.</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <LangVersion>Latest</LangVersion>
+    <PackageId>SpecificatR.UnitTest.Abstractions</PackageId>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <Product>SpecificatR.UnitTest.Abstractions</Product>
+    <RepositoryUrl>https://github.com/Cr3ature/SpecificatR</RepositoryUrl>
+    <Version>3.0.0.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,10 +1,8 @@
 //-----------------------------------------------------------------------
-// <copyright file="IncludeExpressionResolverTests.cs" company="David Vanderheyden">
-//     Copyright (c) 2019 All Rights Reserved
+// <copyright file="IncludeExpressionResolverTests.cs">
+//     Copyright (c) 2019-2020 David Vanderheyden All Rights Reserved
 // </copyright>
 // <licensed>Distributed under Apache-2.0 license</licensed>
-// <author>David Vanderheyden</author>
-// <date>25/05/2019 10:10:47</date>
 //-----------------------------------------------------------------------
 
 namespace SpecificatR.Infrastructure.Tests
@@ -16,7 +14,7 @@ namespace SpecificatR.Infrastructure.Tests
     using Xunit;
 
     /// <summary>
-    /// Defines the <see cref="IncludeExpressionResolverTests" />.
+    /// Defines the <see cref="IncludeExpressionResolverTests"/>.
     /// </summary>
     public class IncludeExpressionResolverTests
     {
@@ -73,7 +71,7 @@ namespace SpecificatR.Infrastructure.Tests
         }
 
         /// <summary>
-        /// Defines the <see cref="Entity" />.
+        /// Defines the <see cref="Entity"/>.
         /// </summary>
         private sealed class Entity
         {
@@ -94,7 +92,7 @@ namespace SpecificatR.Infrastructure.Tests
         }
 
         /// <summary>
-        /// Defines the <see cref="NestedEntity" />.
+        /// Defines the <see cref="NestedEntity"/>.
         /// </summary>
         private sealed class NestedEntity
         {
@@ -110,7 +108,7 @@ namespace SpecificatR.Infrastructure.Tests
         }
 
         /// <summary>
-        /// Defines the <see cref="NestedNestedEntity" />.
+        /// Defines the <see cref="NestedNestedEntity"/>.
         /// </summary>
         private sealed class NestedNestedEntity
         {

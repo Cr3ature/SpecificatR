@@ -7,7 +7,7 @@
 // <date>25/05/2019 10:10:44</date>
 //-----------------------------------------------------------------------
 
-namespace SpecificatR.Infrastructure.Repositories
+namespace SpecificatR
 {
     using System;
     using System.Linq.Expressions;

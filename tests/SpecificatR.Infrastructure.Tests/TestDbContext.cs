@@ -1,10 +1,8 @@
 //-----------------------------------------------------------------------
-// <copyright file="TestDbContext.cs" company="David Vanderheyden">
-//     Copyright (c) 2019 All Rights Reserved
+// <copyright file="TestDbContext.cs" >
+//     Copyright (c) 2019-2020 David Vanderheyden All Rights Reserved
 // </copyright>
 // <licensed>Distributed under Apache-2.0 license</licensed>
-// <author>David Vanderheyden</author>
-// <date>25/05/2019 11:04:30</date>
 //-----------------------------------------------------------------------
 
 namespace SpecificatR.Infrastructure.Tests
@@ -12,7 +10,7 @@ namespace SpecificatR.Infrastructure.Tests
     using System;
     using System.Collections.Generic;
     using Microsoft.EntityFrameworkCore;
-    using SpecificatR.Infrastructure.Abstractions;
+    using SpecificatR.Abstractions;
 
     public class TestDbContext : DbContext
     {
