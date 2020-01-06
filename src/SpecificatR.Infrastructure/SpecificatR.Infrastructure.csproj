@@ -8,7 +8,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <LangVersion>Latest</LangVersion>
     <PackageId>SpecificatR</PackageId>
-    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Product>SpecificatR</Product>
     <RepositoryUrl>https://github.com/Cr3ature/SpecificatR</RepositoryUrl>
     <Version>3.0.0.0</Version>
