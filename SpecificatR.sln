@@ -11,11 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecificatR.Infrastructure.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2A95D1D2-4E23-419C-9C51-BB5C2F6CBC55}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		ca.ruleset = ca.ruleset
 		README.md = README.md
 		SpecificatR.header = SpecificatR.header
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpecificatR.Infrastructure.UnitTest.Abstractions", "src\SpecificatR.Infrastructure.UnitTest.Abstractions\SpecificatR.Infrastructure.UnitTest.Abstractions.csproj", "{244B671A-9200-4141-86AF-5F49B9A7F6C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecificatR.Infrastructure.UnitTest.Abstractions", "src\SpecificatR.Infrastructure.UnitTest.Abstractions\SpecificatR.Infrastructure.UnitTest.Abstractions.csproj", "{244B671A-9200-4141-86AF-5F49B9A7F6C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

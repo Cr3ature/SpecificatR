@@ -1,4 +1,4 @@
-﻿//-----------------------------------------------------------------------
+//-----------------------------------------------------------------------
 // <copyright file="_Visibility.cs" company="David Vanderheyden">
 //     Copyright (c) 2019 All Rights Reserved
 // </copyright>
@@ -8,8 +8,6 @@
 //-----------------------------------------------------------------------
 
 using System.Runtime.CompilerServices;
-
-
 
 [assembly: InternalsVisibleTo("SpecificatR.Infrastructure.Tests")]
 [assembly: InternalsVisibleTo("SpecificatR.Infrastructure.UnitTest.Abstractions")]

@@ -1,60 +1,58 @@
 //-----------------------------------------------------------------------
-// <copyright file="ReadWriteRepositoryTests.cs" company="David Vanderheyden">
-//     Copyright (c) 2019 All Rights Reserved
+// <copyright file="ReadWriteRepositoryTests.cs">
+//     Copyright (c) 2019-2020 David Vanderheyden All Rights Reserved
 // </copyright>
 // <licensed>Distributed under Apache-2.0 license</licensed>
-// <author>David Vanderheyden</author>
-// <date>25/05/2019 10:10:48</date>
 //-----------------------------------------------------------------------
 
 namespace SpecificatR.Infrastructure.Tests.Repositories
 {
-    using AutoFixture;
-    using EntityFrameworkCoreMock;
-    using FluentAssertions;
-    using Microsoft.EntityFrameworkCore;
-    using SpecificatR.Infrastructure.Repositories;
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+    using AutoFixture;
+    using EntityFrameworkCore3Mock;
+    using FluentAssertions;
+    using Microsoft.EntityFrameworkCore;
+    using SpecificatR;
     using Xunit;
 
     /// <summary>
-    /// Defines the <see cref="ReadWriteRepositoryTests" />
+    /// Defines the <see cref="ReadWriteBaseRepositoryTests"/>.
     /// </summary>
-    public class ReadWriteRepositoryTests
+    public class ReadWriteBaseRepositoryTests
     {
         /// <summary>
-        /// Defines the _fixture
+        /// Defines the _fixture.
         /// </summary>
         private readonly IFixture _fixture = new Fixture();
 
         /// <summary>
-        /// Defines the _options
+        /// Defines the _options.
         /// </summary>
         private readonly DbContextOptions<TestDbContext> _options = new DbContextOptions<TestDbContext>();
 
-        public ReadWriteRepositoryTests()
+        public ReadWriteBaseRepositoryTests()
         {
             _fixture.Customize<TestEntity>(testEntity => testEntity.Without(w => w.Children));
         }
 
         /// <summary>
-        /// The AddEntity_ShouldAddEntity
+        /// The AddEntity_ShouldAddEntity.
         /// </summary>
-        /// <returns>The <see cref="Task"/></returns>
+        /// <returns>The <see cref="Task"/>.</returns>
         [Fact]
         public async Task AddEntity_ShouldAddEntity()
         {
             // Arrange
             TestEntity entity = _fixture.Create<TestEntity>();
             var dbContextMock = new DbContextMock<TestDbContext>(_options);
-            dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => (x.Id));
+            dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => x.Id);
 
-            var repository = new ReadWriteRepository<TestEntity, Guid, TestDbContext>(dbContextMock.Object);
+            var repository = new ReadWriteBaseRepository<TestEntity, Guid, TestDbContext>(dbContextMock.Object);
 
             // Act
-            TestEntity result = await repository.AddAsync(entity);
+            TestEntity result = await repository.Add(entity);
 
             // Assert
             result.Id.Should().Be(entity.Id);
@@ -62,23 +60,23 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
         }
 
         /// <summary>
-        /// The DeleteAsync_KnownEntity_ShouldDeleteEntity
+        /// The DeleteAsync_KnownEntity_ShouldDeleteEntity.
         /// </summary>
-        /// <returns>The <see cref="Task"/></returns>
+        /// <returns>The <see cref="Task"/>.</returns>
         [Fact]
         public async Task DeleteAsync_KnownEntity_ShouldDeleteEntity()
         {
             // Arrange
             TestEntity[] entities = _fixture.CreateMany<TestEntity>(2).ToArray();
             var dbContextMock = new DbContextMock<TestDbContext>(_options);
-            dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => (x.Id), entities);
+            dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => x.Id, entities);
 
-            var repository = new ReadWriteRepository<TestEntity, Guid, TestDbContext>(dbContextMock.Object);
+            var repository = new ReadWriteBaseRepository<TestEntity, Guid, TestDbContext>(dbContextMock.Object);
 
             // Act
-            await repository.DeleteAsync(entities[0]);
+            await repository.Delete(entities[0]);
             await repository.CommitAsync();
-            TestEntity[] getAll = await repository.GetAllAsync();
+            TestEntity[] getAll = await repository.GetAll();
 
             // Assert
             getAll.SingleOrDefault(x => x.Id == entities[0].Id).Should().BeNull();
@@ -86,23 +84,23 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
         }
 
         /// <summary>
-        /// The DeleteAsync_UnknownEntity_ShouldNotThrowException
+        /// The DeleteAsync_UnknownEntity_ShouldNotThrowException.
         /// </summary>
-        /// <returns>The <see cref="Task"/></returns>
+        /// <returns>The <see cref="Task"/>.</returns>
         [Fact]
         public async Task DeleteAsync_UnknownEntity_ShouldNotThrowException()
         {
             // Arrange
             TestEntity[] entities = _fixture.CreateMany<TestEntity>(2).ToArray();
             var dbContextMock = new DbContextMock<TestDbContext>(_options);
-            dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => (x.Id), entities);
+            dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => x.Id, entities);
 
-            var repository = new ReadWriteRepository<TestEntity, Guid, TestDbContext>(dbContextMock.Object);
+            var repository = new ReadWriteBaseRepository<TestEntity, Guid, TestDbContext>(dbContextMock.Object);
 
             // Act
-            await repository.DeleteAsync(_fixture.Create<TestEntity>());
+            await repository.Delete(_fixture.Create<TestEntity>());
             await repository.CommitAsync();
-            TestEntity[] getAll = await repository.GetAllAsync();
+            TestEntity[] getAll = await repository.GetAll();
 
             // Assert
             getAll.Should().ContainEquivalentOf(entities[0]);
@@ -110,9 +108,9 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
         }
 
         /// <summary>
-        /// The DeleteByIdAsync_KnownEntity_ShouldDeleteEntity
+        /// The DeleteByIdAsync_KnownEntity_ShouldDeleteEntity.
         /// </summary>
-        /// <returns>The <see cref="Task"/></returns>
+        /// <returns>The <see cref="Task"/>.</returns>
         [Fact]
         public async Task DeleteByIdAsync_KnownEntity_ShouldDeleteEntity()
         {
@@ -120,13 +118,13 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             TestEntity[] entities = _fixture.CreateMany<TestEntity>(2).ToArray();
 
             var dbContextMock = new DbContextMock<TestDbContext>(_options);
-            dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => (x.Id), entities);
-            var repository = new ReadWriteRepository<TestEntity, Guid, TestDbContext>(dbContextMock.Object);
+            dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => x.Id, entities);
+            var repository = new ReadWriteBaseRepository<TestEntity, Guid, TestDbContext>(dbContextMock.Object);
 
             // Act
-            await repository.DeleteByIdAsync(entities[0].Id);
+            await repository.DeleteById(entities[0].Id);
             await repository.CommitAsync();
-            TestEntity[] getAll = await repository.GetAllAsync();
+            TestEntity[] getAll = await repository.GetAll();
 
             // Assert
             getAll.SingleOrDefault(x => x.Id == entities[0].Id).Should().BeNull();
@@ -134,9 +132,9 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
         }
 
         /// <summary>
-        /// The DeleteByIdAsync_UnknownEntity_ShouldThrowException
+        /// The DeleteByIdAsync_UnknownEntity_ShouldThrowException.
         /// </summary>
-        /// <returns>The <see cref="Task"/></returns>
+        /// <returns>The <see cref="Task"/>.</returns>
         [Fact]
         public async Task DeleteByIdAsync_UnknownEntity_ShouldThrowException()
         {
@@ -144,20 +142,20 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             TestEntity[] entities = _fixture.CreateMany<TestEntity>(2).ToArray();
 
             var dbContextMock = new DbContextMock<TestDbContext>(_options);
-            dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => (x.Id), entities);
-            var repository = new ReadWriteRepository<TestEntity, Guid, TestDbContext>(dbContextMock.Object);
+            dbContextMock.CreateDbSetMock(x => x.TestEntities, (x, _) => x.Id, entities);
+            var repository = new ReadWriteBaseRepository<TestEntity, Guid, TestDbContext>(dbContextMock.Object);
 
             // Act
-            Func<Task> deleteEntity = async () => await repository.DeleteByIdAsync(Guid.NewGuid());
+            Func<Task> deleteEntity = async () => await repository.DeleteById(Guid.NewGuid());
 
             // Assert
             FluentAssertions.Specialized.ExceptionAssertions<NullReferenceException> result = await deleteEntity.Should().ThrowAsync<NullReferenceException>();
         }
 
         /// <summary>
-        /// The UpdateAsync_ExistingEntity_ShouldUpdateEntity
+        /// The UpdateAsync_ExistingEntity_ShouldUpdateEntity.
         /// </summary>
-        /// <returns>The <see cref="Task"/></returns>
+        /// <returns>The <see cref="Task"/>.</returns>
         [Fact]
         public async Task UpdateAsync_ExistingEntity_ShouldUpdateEntity()
         {
@@ -166,7 +164,7 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             {
                 Id = Guid.NewGuid(),
                 Name = "Luke Skywalker",
-                Number = 1
+                Number = 1,
             };
 
             DbContextOptions<TestDbContext> options = new DbContextOptionsBuilder<TestDbContext>()
@@ -174,7 +172,7 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
                .Options;
 
             var dbContext = new TestDbContext(options);
-            var repository = new ReadWriteRepository<TestEntity, Guid, TestDbContext>(dbContext);
+            var repository = new ReadWriteBaseRepository<TestEntity, Guid, TestDbContext>(dbContext);
 
             dbContext.Add(testEntity);
             await dbContext.SaveChangesAsync();
@@ -182,8 +180,8 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             testEntity.Number = 2;
 
             // Act
-            await repository.UpdateAsync(testEntity);
-            TestEntity verifyEntity = await repository.GetByIdAsync(testEntity.Id);
+            await repository.Update(testEntity);
+            TestEntity verifyEntity = await repository.GetById(testEntity.Id);
 
             // Assert
             verifyEntity.Name.Should().Be("Han Solo");
@@ -191,9 +189,9 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
         }
 
         /// <summary>
-        /// The UpdateField_WithoutProperties_ShouldReturnException
+        /// The UpdateField_WithoutProperties_ShouldReturnException.
         /// </summary>
-        /// <returns>The <see cref="Task"/></returns>
+        /// <returns>The <see cref="Task"/>.</returns>
         [Fact]
         public async Task UpdateField_WithoutProperties_ShouldReturnException()
         {
@@ -202,7 +200,7 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             {
                 Id = Guid.NewGuid(),
                 Name = "Yoda",
-                Number = 1
+                Number = 1,
             };
 
             DbContextOptions<TestDbContext> options = new DbContextOptionsBuilder<TestDbContext>()
@@ -210,23 +208,23 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
                .Options;
 
             var dbContext = new TestDbContext(options);
-            var repository = new ReadWriteRepository<TestEntity, Guid, TestDbContext>(dbContext);
+            var repository = new ReadWriteBaseRepository<TestEntity, Guid, TestDbContext>(dbContext);
 
             dbContext.Add(testEntity);
             await dbContext.SaveChangesAsync();
             testEntity.Name = "Mace Windu";
 
             // Act
-            Func<Task> result = async () => await repository.UpdateFieldsAsync(testEntity, null);
+            Func<Task> result = async () => await repository.UpdateFields(testEntity, null);
 
             // Assert
             result.Should().Throw<NullReferenceException>();
         }
 
         /// <summary>
-        /// The UpdateFieldsAsync_WithMultipleChangedEntities_ShouldOnlyUpdateSpecifiedEntity
+        /// The UpdateFieldsAsync_WithMultipleChangedEntities_ShouldOnlyUpdateSpecifiedEntity.
         /// </summary>
-        /// <returns>The <see cref="Task"/></returns>
+        /// <returns>The <see cref="Task"/>.</returns>
         [Fact]
         public async Task UpdateFieldsAsync_WithMultipleChangedEntities_ShouldOnlyUpdateSpecifiedEntity()
         {
@@ -235,13 +233,13 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             {
                 Id = Guid.NewGuid(),
                 Name = "Count Dooku",
-                Number = 1
+                Number = 1,
             };
             var testEntity2 = new TestEntity
             {
                 Id = Guid.NewGuid(),
                 Name = "Kit Fisto",
-                Number = 2
+                Number = 2,
             };
 
             DbContextOptions<TestDbContext> options = new DbContextOptionsBuilder<TestDbContext>()
@@ -258,21 +256,21 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             // Act
             using (var dbContext = new TestDbContext(options))
             {
-                var repository = new ReadWriteRepository<TestEntity, Guid, TestDbContext>(dbContext);
-                testEntity1 = await repository.GetByIdAsync(testEntity1.Id);
+                var repository = new ReadWriteBaseRepository<TestEntity, Guid, TestDbContext>(dbContext);
+                testEntity1 = await repository.GetById(testEntity1.Id);
                 testEntity1.Name = "Darth Vader";
                 testEntity1.Number = 45;
                 testEntity2.Name = "Sheev Palpatine";
 
-                await repository.UpdateFieldsAsync(testEntity1, te => te.Name);
+                await repository.UpdateFields(testEntity1, te => te.Name);
             }
 
             // Assert
             using (var dbContext = new TestDbContext(options))
             {
-                var repository = new ReadWriteRepository<TestEntity, Guid, TestDbContext>(dbContext);
-                TestEntity updatedTestEntity1 = await repository.GetByIdAsync(testEntity1.Id);
-                TestEntity updatedTestEntity2 = await repository.GetByIdAsync(testEntity2.Id);
+                var repository = new ReadWriteBaseRepository<TestEntity, Guid, TestDbContext>(dbContext);
+                TestEntity updatedTestEntity1 = await repository.GetById(testEntity1.Id);
+                TestEntity updatedTestEntity2 = await repository.GetById(testEntity2.Id);
 
                 updatedTestEntity1.Name.Should().Be("Darth Vader");
                 updatedTestEntity1.Number.Should().Be(1);
@@ -281,9 +279,9 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
         }
 
         /// <summary>
-        /// The UpdateFieldsAsync_WithProperties_ShouldOnlyUpdateSpecifiedEntityProperties
+        /// The UpdateFieldsAsync_WithProperties_ShouldOnlyUpdateSpecifiedEntityProperties.
         /// </summary>
-        /// <returns>The <see cref="Task"/></returns>
+        /// <returns>The <see cref="Task"/>.</returns>
         [Fact]
         public async Task UpdateFieldsAsync_WithProperties_ShouldOnlyUpdateSpecifiedEntityProperties()
         {
@@ -292,7 +290,7 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             {
                 Id = Guid.NewGuid(),
                 Name = "Anakin Skywalker",
-                Number = 1
+                Number = 1,
             };
 
             DbContextOptions<TestDbContext> options = new DbContextOptionsBuilder<TestDbContext>()
@@ -311,25 +309,25 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             // Act
             using (var dbContext = new TestDbContext(options))
             {
-                var repository = new ReadWriteRepository<TestEntity, Guid, TestDbContext>(dbContext);
+                var repository = new ReadWriteBaseRepository<TestEntity, Guid, TestDbContext>(dbContext);
 
-                await repository.UpdateFieldsAsync(testEntity, te => te.Name);
+                await repository.UpdateFields(testEntity, te => te.Name);
             }
 
             // Assert
             using (var dbContext = new TestDbContext(options))
             {
-                var repository = new ReadWriteRepository<TestEntity, Guid, TestDbContext>(dbContext);
-                TestEntity updatedTestEntity = await repository.GetByIdAsync(testEntity.Id);
+                var repository = new ReadWriteBaseRepository<TestEntity, Guid, TestDbContext>(dbContext);
+                TestEntity updatedTestEntity = await repository.GetById(testEntity.Id);
                 updatedTestEntity.Name.Should().Be("Obi-Wan Kenobi");
                 updatedTestEntity.Number.Should().Be(1);
             }
         }
 
         /// <summary>
-        /// The UpdateFieldsAsync_WithProperties_ShouldUpdateEntityProperties
+        /// The UpdateFieldsAsync_WithProperties_ShouldUpdateEntityProperties.
         /// </summary>
-        /// <returns>The <see cref="Task"/></returns>
+        /// <returns>The <see cref="Task"/>.</returns>
         [Fact]
         public async Task UpdateFieldsAsync_WithProperties_ShouldUpdateEntityProperties()
         {
@@ -338,7 +336,7 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             {
                 Id = Guid.NewGuid(),
                 Name = "Chewbacca",
-                Number = 1
+                Number = 1,
             };
 
             DbContextOptions<TestDbContext> options = new DbContextOptionsBuilder<TestDbContext>()
@@ -359,11 +357,11 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             // Act
             using (var dbContext = new TestDbContext(options))
             {
-                var repository = new ReadWriteRepository<TestEntity, Guid, TestDbContext>(dbContext);
-                await repository.UpdateFieldsAsync(testEntity, te => te.Name, te => te.Number);
+                var repository = new ReadWriteBaseRepository<TestEntity, Guid, TestDbContext>(dbContext);
+                await repository.UpdateFields(testEntity, te => te.Name, te => te.Number);
 
                 // Assert
-                updatedTestEntity = await repository.GetByIdAsync(testEntity.Id);
+                updatedTestEntity = await repository.GetById(testEntity.Id);
             }
 
             // Assert
@@ -372,9 +370,9 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
         }
 
         /// <summary>
-        /// The UpdateFieldsAsync_WithProperties_ShouldUpdateSpecifiedEntityProperty
+        /// The UpdateFieldsAsync_WithProperties_ShouldUpdateSpecifiedEntityProperty.
         /// </summary>
-        /// <returns>The <see cref="Task"/></returns>
+        /// <returns>The <see cref="Task"/>.</returns>
         [Fact]
         public async Task UpdateFieldsAsync_WithProperties_ShouldUpdateSpecifiedEntityProperty()
         {
@@ -383,7 +381,7 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             {
                 Id = Guid.NewGuid(),
                 Name = "Kylo Ren",
-                Number = 1
+                Number = 1,
             };
 
             DbContextOptions<TestDbContext> options = new DbContextOptionsBuilder<TestDbContext>()
@@ -400,13 +398,13 @@ namespace SpecificatR.Infrastructure.Tests.Repositories
             TestEntity updatedTeamMember = null;
             using (var dbContext = new TestDbContext(options))
             {
-                var repository = new ReadWriteRepository<TestEntity, Guid, TestDbContext>(dbContext);
+                var repository = new ReadWriteBaseRepository<TestEntity, Guid, TestDbContext>(dbContext);
 
                 // Act
-                await repository.UpdateFieldsAsync(testEntity, te => te.Name);
+                await repository.UpdateFields(testEntity, te => te.Name);
 
                 // Assert
-                updatedTeamMember = await repository.GetByIdAsync(testEntity.Id);
+                updatedTeamMember = await repository.GetById(testEntity.Id);
             }
 
             // Assert
