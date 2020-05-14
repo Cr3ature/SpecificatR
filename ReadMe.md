@@ -143,8 +143,3 @@ Task UpdateAsync(TEntity entity);
 // Update specific properties of a entity in database
 Task UpdateFieldsAsync(TEntity entity, params Expression<Func<TEntity, object>>[] properties);
 ````
-
-### Todo
-
-- Projections: An expression to project the query to a new object. In the current version of EntityFrameworkCore, this gives issues when projecting nested entities, causing N+1 queries. [This issue should be resolved in EFCore 3](https://github.com/aspnet/EntityFrameworkCore/issues/12098#issuecomment-455997159), therefore I put this on todo list.
-- Extend readme with unit test examples
