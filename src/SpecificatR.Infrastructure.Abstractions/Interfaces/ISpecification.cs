@@ -1,10 +1,3 @@
-//-----------------------------------------------------------------------
-// <copyright file="ISpecification.cs">
-//     Copyright (c) 2019-2020 David Vanderheyden All Rights Reserved
-// </copyright>
-// <licensed>Distributed under Apache-2.0 license</licensed>
-//-----------------------------------------------------------------------
-
 namespace SpecificatR.Abstractions
 {
     using System;
@@ -18,24 +11,24 @@ namespace SpecificatR.Abstractions
     public interface ISpecification<TClass>
     {
         /// <summary>
-        /// Gets a value indicating whether AsTracking.
-        /// </summary>
-        bool AsTracking { get; }
-
-        /// <summary>
         /// Gets a value indicating whether to only return different values.
         /// </summary>
         bool AsDistinct { get; }
 
         /// <summary>
-        /// Gets a comparer to set comparing rules to get a distinct result.
+        /// Gets a value indicating whether AsTracking.
         /// </summary>
-        IEqualityComparer<TClass> DistinctComparer { get; }
+        bool AsTracking { get; }
 
         /// <summary>
         /// Gets the Criteria.
         /// </summary>
         Expression<Func<TClass, bool>> Criteria { get; }
+
+        /// <summary>
+        /// Gets a comparer to set comparing rules to get a distinct result.
+        /// </summary>
+        IEqualityComparer<TClass> DistinctComparer { get; }
 
         /// <summary>
         /// Gets a value indicating whether IgnoreQueryFilters.

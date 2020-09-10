@@ -1,12 +1,3 @@
-//-----------------------------------------------------------------------
-// <copyright file="IReadWriteBaseRepository.cs" company="David Vanderheyden">
-//     Copyright (c) 2019 All Rights Reserved
-// </copyright>
-// <licensed>Distributed under Apache-2.0 license</licensed>
-// <author>David Vanderheyden</author>
-// <date>25/05/2019 10:10:44</date>
-//-----------------------------------------------------------------------
-
 namespace SpecificatR
 {
     using System;
@@ -26,13 +17,6 @@ namespace SpecificatR
         where TDbContext : DbContext
     {
         /// <summary>
-        /// Delete entity on database by Id.
-        /// </summary>
-        /// <param name="id">Identifier.</param>
-        /// <returns>The <see cref="Task"/>.</returns>
-        Task DeleteById(TIdentifier id);
-
-        /// <summary>
         /// Add entity to database.
         /// </summary>
         /// <param name="entity">The <see cref="TEntity"/>..</param>
@@ -45,6 +29,13 @@ namespace SpecificatR
         /// <param name="entity">The <see cref="TEntity"/>.</param>
         /// <returns>The <see cref="Task"/>.</returns>
         Task Delete(TEntity entity);
+
+        /// <summary>
+        /// Delete entity on database by Id.
+        /// </summary>
+        /// <param name="id">Identifier.</param>
+        /// <returns>The <see cref="Task"/>.</returns>
+        Task DeleteById(TIdentifier id);
 
         /// <summary>
         /// Update all properties of a entity in database.

@@ -1,10 +1,3 @@
-//-----------------------------------------------------------------------
-// <copyright file="SpecificationEvaluator.cs">
-//     Copyright (c) 2019-2020 David Vanderheyden All Rights Reserved
-// </copyright>
-// <licensed>Distributed under Apache-2.0 license</licensed>
-//-----------------------------------------------------------------------
-
 namespace SpecificatR.Infrastructure.Internal
 {
     using System;
@@ -88,6 +81,23 @@ namespace SpecificatR.Infrastructure.Internal
                 return outputQuery;
 
             return outputQuery.Where(criteria);
+        }
+
+        /// <summary>
+        /// Set Distinct on the query.
+        /// </summary>
+        /// <param name="outputQuery">The outputQuery <see cref="IQueryable{ClassType}"/>.</param>
+        /// <param name="specification">The specification <see cref="ISpecification{ClassType}"/>.</param>
+        /// <returns>The <see cref="IQueryable{ClassType}"/>.</returns>
+        private static IQueryable<TEntity> SetDistinct(IQueryable<TEntity> outputQuery, ISpecification<TEntity> specification)
+        {
+            if (!specification.AsDistinct)
+                return outputQuery;
+
+            if (specification.DistinctComparer == null)
+                return outputQuery.Distinct();
+
+            return outputQuery.Distinct(specification.DistinctComparer);
         }
 
         /// <summary>
@@ -180,23 +190,6 @@ namespace SpecificatR.Infrastructure.Internal
                 return outputQuery;
 
             return outputQuery.AsNoTracking();
-        }
-
-        /// <summary>
-        /// Set Distinct on the query.
-        /// </summary>
-        /// <param name="outputQuery">The outputQuery <see cref="IQueryable{ClassType}"/>.</param>
-        /// <param name="specification">The specification <see cref="ISpecification{ClassType}"/>.</param>
-        /// <returns>The <see cref="IQueryable{ClassType}"/>.</returns>
-        private static IQueryable<TEntity> SetDistinct(IQueryable<TEntity> outputQuery, ISpecification<TEntity> specification)
-        {
-            if (!specification.AsDistinct)
-                return outputQuery;
-
-            if (specification.DistinctComparer == null)
-                return outputQuery.Distinct();
-
-            return outputQuery.Distinct(specification.DistinctComparer);
         }
     }
 }
