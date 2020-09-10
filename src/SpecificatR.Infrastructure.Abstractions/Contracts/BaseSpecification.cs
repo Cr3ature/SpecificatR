@@ -1,10 +1,3 @@
-//-----------------------------------------------------------------------
-// <copyright file="BaseSpecification.cs">
-//     Copyright (c) 2019-2020 David Vanderheyden All Rights Reserved
-// </copyright>
-// <licensed>Distributed under Apache-2.0 license</licensed>
-//-----------------------------------------------------------------------
-
 namespace SpecificatR.Abstractions
 {
     using System;
@@ -40,19 +33,21 @@ namespace SpecificatR.Abstractions
         }
 
         /// <summary>
-        /// Gets a value indicating whether AsTracking.
-        /// </summary>
-        public bool AsTracking { get; private set; } = false;
-
-        /// <summary>
         /// Gets a value indicating whether to only return different values.
         /// </summary>
         public bool AsDistinct { get; private set; } = false;
 
         /// <summary>
+        /// Gets a value indicating whether AsTracking.
+        /// </summary>
+        public bool AsTracking { get; private set; } = false;
+
+        /// <summary>
         /// Gets the Criteria.
         /// </summary>
         public Expression<Func<TEntity, bool>> Criteria { get; }
+
+        public IEqualityComparer<TEntity> DistinctComparer { get; private set; }
 
         /// <summary>
         /// Gets a value indicating whether IgnoreQueryFilters.
@@ -83,8 +78,6 @@ namespace SpecificatR.Abstractions
         /// Gets the Take.
         /// </summary>
         public int Take { get; private set; }
-
-        public IEqualityComparer<TEntity> DistinctComparer { get; private set; }
 
         /// <summary>
         /// Ignore query filters.
@@ -120,6 +113,27 @@ namespace SpecificatR.Abstractions
             => _orderByExpressions.Add(new OrderByExpression<TEntity>(orderByExpression, orderByDirection));
 
         /// <summary>
+        /// Set query as distinct in EF Core. By default queries will not be distinct with
+        /// specifications (AsDistinct) using a custom or default comparer.
+        /// </summary>
+        /// <param name="comparer">The comparer that should be used to set the distinct list.</param>
+        protected virtual void ApplyDistinct(IEqualityComparer<TEntity> comparer)
+        {
+            AsDistinct = true;
+            DistinctComparer = comparer;
+        }
+
+        /// <summary>
+        /// Set query as distinct in EF Core. By default queries will not be distinct with
+        /// specifications (AsDistinct).
+        /// </summary>
+        protected virtual void ApplyDistinct()
+        {
+            AsDistinct = true;
+            DistinctComparer = null;
+        }
+
+        /// <summary>
         /// Apply Paging to the query.
         /// <para>
         /// This will add a skip and take to the query based on the parameters ( <c>pageIndex</c>
@@ -141,26 +155,5 @@ namespace SpecificatR.Abstractions
         /// </summary>
         protected virtual void ApplyTracking()
             => AsTracking = true;
-
-        /// <summary>
-        /// Set query as distinct in EF Core. By default queries will not be distinct with
-        /// specifications (AsDistinct) using a custom or default comparer.
-        /// </summary>
-        /// <param name="comparer">The comparer that should be used to set the distinct list.</param>
-        protected virtual void ApplyDistinct(IEqualityComparer<TEntity> comparer)
-        {
-            AsDistinct = true;
-            DistinctComparer = comparer;
-        }
-
-        /// <summary>
-        /// Set query as distinct in EF Core. By default queries will not be distinct with
-        /// specifications (AsDistinct).
-        /// </summary>
-        protected virtual void ApplyDistinct()
-        {
-            AsDistinct = true;
-            DistinctComparer = null;
-        }
     }
 }

@@ -1,10 +1,3 @@
-//-----------------------------------------------------------------------
-// <copyright file="SpecificationTests.cs"
-//     Copyright (c) 2019-2020 David Vanderheyden All Rights Reserved
-// </copyright>
-// <licensed>Distributed under Apache-2.0 license</licensed>
-//-----------------------------------------------------------------------
-
 namespace SpecificatR.Infrastructure.Tests
 {
     using System;
@@ -57,24 +50,6 @@ namespace SpecificatR.Infrastructure.Tests
         }
 
         [Fact]
-        public async Task Should_SetDistinct()
-        {
-            // Arrange
-            IEnumerable<TestEntity> entities = _fixture.CreateMany<TestEntity>(4);
-            var groupedEntities = new List<TestEntity>();
-            groupedEntities.AddRange(entities.ToList());
-            groupedEntities.AddRange(entities.ToList());
-
-            var mockUnitTestSpecification = new SpecificationRepository<TestEntity, Guid>();
-
-            // Act
-            TestEntity[] result = await mockUnitTestSpecification.GetAll(entities.AsQueryable(), new TestEntityDistinctSpecification());
-
-            // Assert
-            result.Should().HaveCount(4);
-        }
-
-        [Fact]
         public async Task Should_OrderByNameAscending()
         {
             // Arrange
@@ -123,6 +98,24 @@ namespace SpecificatR.Infrastructure.Tests
 
             // Assert
             result.Should().NotBeNull().And.BeEquivalentTo(entities[0]);
+        }
+
+        [Fact]
+        public async Task Should_SetDistinct()
+        {
+            // Arrange
+            IEnumerable<TestEntity> entities = _fixture.CreateMany<TestEntity>(4);
+            var groupedEntities = new List<TestEntity>();
+            groupedEntities.AddRange(entities.ToList());
+            groupedEntities.AddRange(entities.ToList());
+
+            var mockUnitTestSpecification = new SpecificationRepository<TestEntity, Guid>();
+
+            // Act
+            TestEntity[] result = await mockUnitTestSpecification.GetAll(entities.AsQueryable(), new TestEntityDistinctSpecification());
+
+            // Assert
+            result.Should().HaveCount(4);
         }
 
         /// <summary>

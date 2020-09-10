@@ -1,10 +1,3 @@
-//-----------------------------------------------------------------------
-// <copyright file="ReadRepositoryTests.cs">
-//     Copyright (c) 2019-2020 David Vanderheyden All Rights Reserved
-// </copyright>
-// <licensed>Distributed under Apache-2.0 license</licensed>
-//-----------------------------------------------------------------------
-
 namespace SpecificatR.Infrastructure.Tests.Repositories
 {
     using System;

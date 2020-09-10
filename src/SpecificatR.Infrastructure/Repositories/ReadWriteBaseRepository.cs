@@ -1,12 +1,3 @@
-//-----------------------------------------------------------------------
-// <copyright file="ReadWriteBaseRepository.cs" company="David Vanderheyden">
-//     Copyright (c) 2019 All Rights Reserved
-// </copyright>
-// <licensed>Distributed under Apache-2.0 license</licensed>
-// <author>David Vanderheyden</author>
-// <date>25/05/2019 10:10:44</date>
-//-----------------------------------------------------------------------
-
 namespace SpecificatR
 {
     using System;
@@ -36,23 +27,6 @@ namespace SpecificatR
         }
 
         /// <summary>
-        /// The DeleteByIdAsync.
-        /// </summary>
-        /// <param name="id">The id <see cref="TIdentifier"/>.</param>
-        /// <returns>The <see cref="Task"/>.</returns>
-        public async Task DeleteById(TIdentifier id)
-        {
-            TEntity entity = await Context.Set<TEntity>().FindAsync(id);
-
-            if (entity == null)
-                throw new NullReferenceException();
-
-            Context.Set<TEntity>().Remove(entity);
-
-            await CommitAsync();
-        }
-
-        /// <summary>
         /// The AddAsync.
         /// </summary>
         /// <param name="entity">The entity <see cref="TEntity"/>.</param>
@@ -64,34 +38,6 @@ namespace SpecificatR
             await CommitAsync();
 
             return await Task.FromResult(entity);
-        }
-
-        /// <summary>
-        /// The DeleteAsync.
-        /// </summary>
-        /// <param name="entity">The entity <see cref="TEntity"/>.</param>
-        /// <returns>The <see cref="Task"/>.</returns>
-        public Task Delete(TEntity entity)
-        {
-            Context.Set<TEntity>().Remove(entity);
-
-            Context.SaveChanges();
-
-            return Task.CompletedTask;
-        }
-
-        /// <summary>
-        /// The UpdateAsync.
-        /// </summary>
-        /// <param name="entity">The entity <see cref="TEntity"/>.</param>
-        /// <returns>The <see cref="Task"/>.</returns>
-        public Task Update(TEntity entity)
-        {
-            Context.Update(entity);
-
-            Context.SaveChanges();
-
-            return Task.CompletedTask;
         }
 
         /// <summary>
@@ -110,6 +56,51 @@ namespace SpecificatR
             {
                 _ = Add(entity);
             }
+        }
+
+        /// <summary>
+        /// The DeleteAsync.
+        /// </summary>
+        /// <param name="entity">The entity <see cref="TEntity"/>.</param>
+        /// <returns>The <see cref="Task"/>.</returns>
+        public Task Delete(TEntity entity)
+        {
+            Context.Set<TEntity>().Remove(entity);
+
+            Context.SaveChanges();
+
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
+        /// The DeleteByIdAsync.
+        /// </summary>
+        /// <param name="id">The id <see cref="TIdentifier"/>.</param>
+        /// <returns>The <see cref="Task"/>.</returns>
+        public async Task DeleteById(TIdentifier id)
+        {
+            TEntity entity = await Context.Set<TEntity>().FindAsync(id);
+
+            if (entity == null)
+                throw new NullReferenceException();
+
+            Context.Set<TEntity>().Remove(entity);
+
+            await CommitAsync();
+        }
+
+        /// <summary>
+        /// The UpdateAsync.
+        /// </summary>
+        /// <param name="entity">The entity <see cref="TEntity"/>.</param>
+        /// <returns>The <see cref="Task"/>.</returns>
+        public Task Update(TEntity entity)
+        {
+            Context.Update(entity);
+
+            Context.SaveChanges();
+
+            return Task.CompletedTask;
         }
 
         /// <summary>

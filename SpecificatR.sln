@@ -14,7 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		ca.ruleset = ca.ruleset
 		README.md = README.md
-		SpecificatR.header = SpecificatR.header
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpecificatR.Infrastructure.UnitTest.Abstractions", "src\SpecificatR.Infrastructure.UnitTest.Abstractions\SpecificatR.Infrastructure.UnitTest.Abstractions.csproj", "{244B671A-9200-4141-86AF-5F49B9A7F6C2}"
