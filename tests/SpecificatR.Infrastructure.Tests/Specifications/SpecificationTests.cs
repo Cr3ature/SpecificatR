@@ -29,6 +29,46 @@ namespace SpecificatR.Infrastructure.Tests
         }
 
         /// <summary>
+        /// The TestEntityPaginatedWithOrderBySpecification should apply.
+        /// </summary>
+        /// <returns>The <see cref="Task"/>.</returns>
+        [Fact]
+        public async Task GetAll_WithPaginatedAndOrderBySpecification_ShouldGetSecondPaginatedResult()
+        {
+            // Arrange
+            IEnumerable<TestEntity> testEntities = _fixture.CreateMany<TestEntity>(25);
+
+            var mockUnitTestSpecification = new SpecificationRepository<TestEntity, Guid>();
+
+            // Act
+            TestEntity[] result = await mockUnitTestSpecification.GetAll(testEntities.AsQueryable(), new TestEntityPaginatedWithOrderbySpecification(2, 10));
+            TestEntity[] wantedResult = testEntities.OrderByDescending(o => o.Name).Skip(10).Take(10).ToArray();
+
+            // Assert
+            result.Should().Equals(wantedResult);
+        }
+
+        /// <summary>
+        /// The TestEntityPaginatedWithOrderBySpecification should apply.
+        /// </summary>
+        /// <returns>The <see cref="Task"/>.</returns>
+        [Fact]
+        public async Task GetAll_WithPaginatedAndOrderBySpecification_ShouldGetPaginated()
+        {
+            // Arrange
+            IEnumerable<TestEntity> testEntities = _fixture.CreateMany<TestEntity>(25);
+
+            var mockUnitTestSpecification = new SpecificationRepository<TestEntity, Guid>();
+
+            // Act
+            TestEntity[] result = await mockUnitTestSpecification.GetAll(testEntities.AsQueryable(), new TestEntityPaginatedWithOrderbySpecification(1, 10));
+            TestEntity[] wantedResult = testEntities.OrderByDescending(o => o.Name).Take(10).ToArray();
+
+            // Assert
+            result.Should().Equals(wantedResult);
+        }
+
+        /// <summary>
         /// The Should_ApplyPaging.
         /// </summary>
         /// <returns>The <see cref="Task"/>.</returns>
