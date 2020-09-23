@@ -21,6 +21,19 @@ namespace SpecificatR.Infrastructure.Internal
             => ApplySpecification(inputQuery: inputQuery, specification: specification).ToArray();
 
         /// <summary>
+        /// GetAll with filteredCount by evaluated specification.
+        /// </summary>
+        /// <param name="inputQuery"></param>
+        /// <param name="specification"></param>
+        /// <returns>The <see cref="Task{(TEntity[] entities, int filteredCount)}"/>.</returns>
+        public static (TEntity[] entities, int filteredCount) GetAllResultsWithCount(IQueryable<TEntity> inputQuery, ISpecification<TEntity> specification)
+        {
+            (IQueryable<TEntity> query, int filteredCount) = ApplySpecificationWithCount(inputQuery: inputQuery, specification: specification);
+
+            return (query.ToArray(), filteredCount);
+        }
+
+        /// <summary>
         /// The GetSingleResultAsync.
         /// </summary>
         /// <param name="inputQuery">   The inputQuery <see cref="IQueryable{TEntity}"/>.</param>
@@ -37,5 +50,8 @@ namespace SpecificatR.Infrastructure.Internal
         /// <returns>The <see cref="IQueryable{TEntity}"/>.</returns>
         protected static IQueryable<TEntity> ApplySpecification(IQueryable<TEntity> inputQuery, ISpecification<TEntity> specification)
             => SpecificationEvaluator<TEntity>.GetQuery(inputQuery: inputQuery, specification: specification);
+
+        protected static (IQueryable<TEntity> query, int filteredCount) ApplySpecificationWithCount(IQueryable<TEntity> inputQuery, ISpecification<TEntity> specification)
+            => SpecificationEvaluator<TEntity>.GetQueryWithCount(inputQuery: inputQuery, specification: specification);
     }
 }

@@ -27,8 +27,6 @@ namespace SpecificatR.Infrastructure.Internal
 
             outputQuery = SetIncludes(outputQuery, specification);
 
-            outputQuery = SetPaging(outputQuery, specification);
-
             outputQuery = SetOrderBy(outputQuery, specification);
 
             outputQuery = SetIgnoreQueryFilters(outputQuery, specification);
@@ -36,6 +34,8 @@ namespace SpecificatR.Infrastructure.Internal
             outputQuery = SetTracking(outputQuery, specification);
 
             outputQuery = SetDistinct(outputQuery, specification);
+
+            outputQuery = SetPaging(outputQuery, specification);
 
             return outputQuery;
         }
@@ -56,8 +56,6 @@ namespace SpecificatR.Infrastructure.Internal
 
             var filteredCount = outputQuery.Count();
 
-            outputQuery = SetPaging(outputQuery, specification);
-
             outputQuery = SetOrderBy(outputQuery, specification);
 
             outputQuery = SetIgnoreQueryFilters(outputQuery, specification);
@@ -65,6 +63,8 @@ namespace SpecificatR.Infrastructure.Internal
             outputQuery = SetTracking(outputQuery, specification);
 
             outputQuery = SetDistinct(outputQuery, specification);
+
+            outputQuery = SetPaging(outputQuery, specification);
 
             return (outputQuery, filteredCount);
         }

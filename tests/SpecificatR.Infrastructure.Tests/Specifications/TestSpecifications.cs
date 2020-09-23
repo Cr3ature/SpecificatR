@@ -90,6 +90,15 @@ namespace SpecificatR.Infrastructure.Tests.Specifications
         }
     }
 
+    public class TestEntityPaginatedWithOrderbySpecification : TestEntityPaginatedSpecification
+    {
+        public TestEntityPaginatedWithOrderbySpecification(int pageIndex, int pageSize)
+            : base(pageIndex, pageSize)
+        {
+            AddOrderBy(testentity => testentity.Name, OrderByDirection.Ascending);
+        }
+    }
+
     /// <summary>
     /// Defines the <see cref="TestEntityWithChildEntitiesSpecification"/>.
     /// </summary>

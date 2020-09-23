@@ -11,7 +11,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Product>SpecificatR.Abstractions</Product>
     <RepositoryUrl>https://github.com/Cr3ature/SpecificatR</RepositoryUrl>
-    <Version>3.1.0.0</Version>
+    <Version>3.1.1.9-BETA</Version>
   </PropertyGroup>
   
 </Project>
