@@ -49,5 +49,12 @@ namespace SpecificatR
         /// <param name="specification">Specification parameter.</param>
         /// <returns>The <see cref="TEntity"/>.</returns>
         Task<TEntity> GetFirstOrDefault(ISpecification<TEntity> specification);
+
+
+        /// <summary>
+        /// Get a clean DB Set to make a custom linq query without the specifications.
+        /// </summary>
+        /// <returns></returns>
+        DbSet<TEntity> Query();
     }
 }

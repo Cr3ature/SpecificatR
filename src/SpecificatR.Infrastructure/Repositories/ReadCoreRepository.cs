@@ -65,5 +65,13 @@ namespace SpecificatR
         /// <returns>The <see cref="Task{TEntity}"/>.</returns>
         public async Task<TEntity> GetFirstOrDefault(ISpecification<TEntity> specification)
             => await Task.FromResult(SpecificationResolver<TEntity>.GetFirstOrDefaultResult(Context.Set<TEntity>().AsQueryable(), specification));
+
+
+        /// <summary>
+        /// Get a clean DB Set to make a custom linq query without the specifications.
+        /// </summary>
+        /// <returns></returns>
+        public DbSet<TEntity> Query()
+            => Context.Set<TEntity>();
     }
 }
