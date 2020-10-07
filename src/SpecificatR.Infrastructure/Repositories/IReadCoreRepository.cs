@@ -36,6 +36,22 @@ namespace SpecificatR
         Task<TEntity[]> GetAll(string sqlQuery, params object[] parameters);
 
         /// <summary>
+        /// Get all entities and entitiesCount with optional tracked by EF Core. 
+        /// Default is set to AsNoTracking().
+        /// </summary>
+        /// <param name="sqlQuery"></param>
+        /// <param name="parameters"></param>
+        /// <returns></returns>
+        Task<(TEntity[] entities, int entitiesTotalCount)> GetAllWithCount(bool asTracking = false);
+
+        /// <summary>
+        /// Get all entities and entitiesCount based on specification.
+        /// </summary>
+        /// <param name="specification"></param>
+        /// <returns></returns>
+        Task<(TEntity[] entities, int entitiesTotalCount)> GetAllWithCount(ISpecification<TEntity> specification);
+
+        /// <summary>
         /// Get single entity as readonly object. Using SqlQuery with Query params.
         /// </summary>
         /// <param name="sqlQuery">  Query string.</param>
@@ -49,5 +65,12 @@ namespace SpecificatR
         /// <param name="specification">Specification parameter.</param>
         /// <returns>The <see cref="TEntity"/>.</returns>
         Task<TEntity> GetFirstOrDefault(ISpecification<TEntity> specification);
+
+
+        /// <summary>
+        /// Get a clean DB Set to make a custom linq query without the specifications.
+        /// </summary>
+        /// <returns></returns>
+        DbSet<TEntity> Query();
     }
 }

@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using SpecificatR.Abstractions;
@@ -50,6 +51,31 @@ namespace SpecificatR
             => await Task.FromResult(SpecificationResolver<TEntity>.GetAllResult(Context.Set<TEntity>().AsQueryable(), specification));
 
         /// <summary>
+        /// Get all with count with optional tracking.
+        /// </summary>
+        /// <param name="asTracking"></param>
+        /// <returns></returns>
+        public async Task<(TEntity[] entities, int entitiesTotalCount)> GetAllWithCount(bool asTracking = false)
+        {
+            if (asTracking)
+            {
+                TEntity[] trackedEntities = await Context.Set<TEntity>().ToArrayAsync();
+                return (trackedEntities, trackedEntities.Count());
+            }
+
+            TEntity[] untrackedEntities = await Context.Set<TEntity>().AsNoTracking().ToArrayAsync();
+            return (untrackedEntities, untrackedEntities.Count());
+        }
+
+        /// <summary>
+        /// Get all with count by specification.
+        /// </summary>
+        /// <param name="specification"></param>
+        /// <returns>The <see cref="Task{(TEntity[] entities, int entitiesTotalCount)}"/>.</returns>
+        public async Task<(TEntity[] entities, int entitiesTotalCount)> GetAllWithCount(ISpecification<TEntity> specification)
+            => await Task.FromResult(SpecificationResolver<TEntity>.GetAllResultsWithCount(Context.Set<TEntity>().AsQueryable(), specification));
+
+        /// <summary>
         /// Get single or default from DbSet using FromSql.
         /// </summary>
         /// <param name="sqlQuery">  Query string.</param>
@@ -65,5 +91,13 @@ namespace SpecificatR
         /// <returns>The <see cref="Task{TEntity}"/>.</returns>
         public async Task<TEntity> GetFirstOrDefault(ISpecification<TEntity> specification)
             => await Task.FromResult(SpecificationResolver<TEntity>.GetFirstOrDefaultResult(Context.Set<TEntity>().AsQueryable(), specification));
+
+
+        /// <summary>
+        /// Get a clean DB Set to make a custom linq query without the specifications.
+        /// </summary>
+        /// <returns></returns>
+        public DbSet<TEntity> Query()
+            => Context.Set<TEntity>();
     }
 }

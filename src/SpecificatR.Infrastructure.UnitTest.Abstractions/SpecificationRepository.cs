@@ -26,6 +26,18 @@ namespace SpecificatR.UnitTest.Abstractions
         }
 
         /// <summary>
+        /// Get all with filteredcount by evaluated specification.
+        /// </summary>
+        /// <param name="queryable"></param>
+        /// <param name="specification"></param>
+        /// <returns>The <see cref="Task{(TEntity[], int)}"/>.</returns>
+        public async Task<(TEntity[] entities, int filteredCount)> GetAllWithCount(IQueryable<TEntity> queryable, ISpecification<TEntity> specification)
+        {
+            (TEntity[] entities, int filteredCount) result = SpecificationResolver<TEntity>.GetAllResultsWithCount(inputQuery: queryable, specification: specification);
+            return await Task.FromResult(result);
+        }
+
+        /// <summary>
         /// The GetSingleWithSpecificationAsync.
         /// </summary>
         /// <param name="queryable">    The queryable <see cref="IQueryable{TEntity}"/>.</param>
