@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <Authors>David Vanderheyden</Authors>
-    <CodeAnalysisRuleSet>..\..\ca.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet></CodeAnalysisRuleSet>
     <Description>SpecificatR abstractions contains contracts, enums and interfaces needed to use SpecificatR.</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <LangVersion>Latest</LangVersion>
